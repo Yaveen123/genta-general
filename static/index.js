@@ -3,7 +3,7 @@
 document.getElementById('hello').innerText = "WHLAWR"
 
 async function getData() {
-    const url = "http://genta-api.online/add_user";
+    const url = "https://genta-api.online/add_user";
     try {
         const response = await fetch(url);
         if (!response.ok) {
