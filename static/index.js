@@ -11,7 +11,8 @@ async function getData() {
         }
     
         const json = await response.json();
-        document.getElementById('hello').innerText = json;
+        let stringJSON = JSON.stringify(json);
+        document.getElementById('hello').innerText = stringJSON;
         console.log(json);
     
     } catch (error) {
