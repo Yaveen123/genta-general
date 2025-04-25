@@ -1,8 +1,10 @@
 
 
-document.getElementById('hello').innerText = "WHLAWR"
+
 
 async function getData() {
+    document.getElementById('hello').innerText = "Fetching..."
+    
     const url = "https://genta-api.online/add_user";
     try {
         const response = await fetch(url);
@@ -20,4 +22,3 @@ async function getData() {
     }
 }
 
-getData()
