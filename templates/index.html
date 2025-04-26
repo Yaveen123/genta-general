@@ -3,13 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://accounts.google.com/gsi/client" async></script>
     <title>Document</title>
 </head>
 <body>
     <p id="hello">.</p>
-    <button type="button" onclick="getData()">Get data from genta-api.online</button>
+    <button type="button" id="getDataButton">Get data from genta-api.online</button>
     <script src="{{url_for('static', filename='index.js')}}"></script>
     <p></p>
     <a href="http://genta-api.online/add_user">Click here to view raw data from genta-api.online</a>
+    <div id="buttonDiv"></div>
+    
+    <!-- <div id="g_id_onload"
+        data-client_id="348119995581-cdr89isvh3cl90i8s7ui1rsabghdvrbr.apps.googleusercontent.com"
+        data-context="signin"
+        data-ux_mode="popup"
+        data-callback="handleCredentialResponse"
+        data-auto_select="true"
+        data-itp_support="true">
+    </div>
+
+    <div class="g_id_signin"
+        data-type="standard"
+        data-shape="rectangular"
+        data-theme="outline"
+        data-text="signin_with"
+        data-size="large"
+        data-logo_alignment="left">
+    </div> -->
+
+    </div>
 </body>
 </html>

@@ -3,11 +3,15 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template("index.html")
+    response = make_response(render_template("index.html"))
+    response.headers['Content-Security-Policy'] = "script-src 'self' https://accounts.google.com/gsi/client https://accounts.google.com/gsi/; frame-src 'self' https://accounts.google.com/gsi/; connect-src 'self' https://genta-api.online https://accounts.google.com/gsi/;"
+    response.headers['Cross-Origin-Opener-Policy'] = 'same-origin-allow-popups'
+    return response
+
 # Define your database models here
 
 #Only runs in flask not gunicorn
 if __name__ == '__main__':
     # Example of creating tables (if they don't exist)
-    
-    app.run(debug=True)
+    #app.run(debug=True)
+    app.run(debug=True, port=6969, host='localhost')
