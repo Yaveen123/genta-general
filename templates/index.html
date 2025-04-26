@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="348119995581-cdr89isvh3cl90i8s7ui1rsabghdvrbr.apps.googleusercontent.com">
     <title>Document</title>
 </head>
 <body>
@@ -11,5 +13,6 @@
     <script src="{{url_for('static', filename='index.js')}}"></script>
     <p></p>
     <a href="http://genta-api.online/add_user">Click here to view raw data from genta-api.online</a>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
 </body>
 </html>
