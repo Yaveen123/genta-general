@@ -10,4 +10,4 @@ def home():
 if __name__ == '__main__':
     # Example of creating tables (if they don't exist)
     
-    app.run(debug=True, host='localhost', port=6969)
+    app.run(debug=True)
