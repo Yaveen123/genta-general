@@ -1,9 +1,16 @@
+let idToken = 'NULL';
+
 async function getData() {
     document.getElementById('hello').innerText = "Fetching..."
 
     const url = "https://genta-api.online/add_user";
     try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization':'Bearer ' + idToken,
+            }
+        });
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
@@ -17,7 +24,6 @@ async function getData() {
         console.error(error.message);
     }
 }
-
 document.addEventListener('DOMContentLoaded', function() {
     const getDataButton = document.getElementById('getDataButton');
     if (getDataButton) {
@@ -26,45 +32,27 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
-
-
-//HANDLE GOOGLE SIGN IN --------------------------------------
-
-// function handleCredentialResponse(response) {
-//     const responsePayload = decodeJwtResponse(response.credential);
-
-//     console.log("ID: " + responsePayload.sub);
-//     console.log('Full Name: ' + responsePayload.name);
-//     console.log('Given Name: ' + responsePayload.given_name);
-//     console.log('Family Name: ' + responsePayload.family_name);
-//     console.log("Image URL: " + responsePayload.picture);
-//     console.log("Email: " + responsePayload.email);
-// }
-
 function decodeJwtResponse(token) {
-let base64Url = token.split('.')[1];
-let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-}).join(''));
-
-return JSON.parse(jsonPayload);
+    let base64Url = token.split('.')[1];
+    let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    let jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
 }
-
 
 function handleCredentialResponse(response) {
     console.log("Encoded JWT ID token: " + response.credential);
-}
-window.onload = function () {
-google.accounts.id.initialize({
-    client_id: "348119995581-cdr89isvh3cl90i8s7ui1rsabghdvrbr.apps.googleusercontent.com",
-    callback: handleCredentialResponse
-});
-google.accounts.id.renderButton(
-document.getElementById("buttonDiv"),
-    { theme: "outline", size: "large" }  // customization attributes
-);
-google.accounts.id.prompt(); // also display the One Tap dialog
+    idToken = response.credential;
+    }
+    window.onload = function () {
+        google.accounts.id.initialize({
+            client_id: "348119995581-cdr89isvh3cl90i8s7ui1rsabghdvrbr.apps.googleusercontent.com",
+            callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+            document.getElementById("buttonDiv"),
+        { theme: "outline", size: "large" }  // customization attributes
+    );
+    google.accounts.id.prompt(); // also display the One Tap dialog
 }
