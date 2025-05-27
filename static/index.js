@@ -3,7 +3,7 @@ let idToken = localStorage.getItem('idToken') || 'NULL';
 async function getData() {
     document.getElementById('hello').innerText = "Fetching...";
 
-    const url = "https://genta-api.online/add_user";
+    const url = "https://genta-api.online/get-data";
     try {
         const response = await fetch(url, {
             method: 'GET',
@@ -25,10 +25,42 @@ async function getData() {
         console.error(error.message);
     }
 }
+
+async function verifLogin() {
+    document.getElementById('hello').innerText = "Fetching..."
+    const url = "https://genta-api.online/verify-login";
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + idToken,
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`)
+        }
+
+        const json = await response.json();
+        let stringJSON = JSON.stringify(json);
+        document.getElementById('hello').innerText = stringJSON;
+        console.log(json);
+    } catch (error) {
+        document.getElementById('hello').innerText = error.message;
+        console.error(error.message);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const getDataButton = document.getElementById('getDataButton');
     if (getDataButton) {
         getDataButton.addEventListener('click', getData);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const verifyLoginButton = document.getElementById('verifyLoginButton');
+    if (verifyLoginButton) {
+        verifyLoginButton.addEventListener('click', verifLogin);
     }
 });
 

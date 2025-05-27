@@ -4,26 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://accounts.google.com/gsi/client" async></script>
-    <title>Documeng hmk,hjht</title>
+    <title>Genta - Productivity for individuals</title>
     <script src="{{url_for('static', filename='index.js')}}"></script>
 </head>
 <body>
     <img src="{{url_for('static', filename='images/logoalpha.png')}}" alt="">
     <h2>Welcome to Genta Frontend</h2>
-    <span>This is a demo of fetching from an api endpoint <a href="https://genta-api.online/add_user">https://genta-api.online/add_user</a></span>
-    <p>To fetch data, you'll need to <b>Sign in With Google</b> so your JWT is sent in the Authorisation header of the HTTP request to genta-api.online</p>
+    <span>Welcome to this quick demonstration of the updates to <a href="https://genta-api.online/">https://genta-api.online/</a><!/span>
+    <p>Genta operates on 3 main API routes that you're able to test.</p>
     <p id="textcorr" style="color: purple;">Checking your authentication status...</p>
     <div id="buttonDiv"></div>
     
     <p id="hello"></p>
-    <button type="button" id="getDataButton">Get data Genta API - REQUIRES SIGN IN</button>
+    <button type="button" id="verifyLoginButton">Test /verify-login</button>
+    <button type="button" id="getDataButton">Test /get-data</button>
+    <button type="button" id="updateDataButton">Test /update-data *doesn't work</button>
     
 
-    <!-- <a href="http://genta-api.online/add_user">Click here to view raw data from genta-api.online</a> -->
-    
-
+    <!-- <a href="http://genta-api.online/add_user">Click here to view raw data from genta-api.online</a> --> 
     <p></p>
     <button type="button" id="signOutButton" style="display: None;">Sign out of Google</button>
+
 
 </body>
 </html>
