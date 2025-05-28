@@ -23,8 +23,9 @@
 </head>
 <body>
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
-        <p class="typography__heading--light">You're signed in!</p>
-        <button id="signOutButton">Sign out</button>
+        <p class="typography__heading--light">Welcome!</p>
+        <img id="loading-animation" src="{{url_for('static',filename='images/loading.svg')}}" width="50px" alt="Loading animation">
+        <button id="signOutButton" style="display: none;">Sign out</button>
     </div>
 </body>
 </html>
