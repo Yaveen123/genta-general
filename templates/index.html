@@ -9,12 +9,37 @@
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script src="{{url_for('static', filename='scripts/index.js')}}"></script>
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
-    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700&display=swap" rel="stylesheet">
+    
+    <!-- Fonts -->
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,400,500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
 
     <!-- Tab title -->
     <title>Genta - Productivity for Individuals</title>
 </head>
 <body>
-    <div id="buttonDiv" style="display: none;"></div>
+    <div class="logincard__sandwich">
+        <div class="logincard__bread__box">
+            <div class="logincard__bread__inner-rect"></div>
+        </div>
+        <div class="logincard__filling_box">
+            <div class="logincard__filling_inner-rect">
+                <div class="logincard__filling__inner-rect__box">
+                    <img src="{{url_for('static', filename='images/genta-logo.svg')}}" alt="Genta Logo">
+                    <p class="typography__body--light">Productivity made for you!</p>
+                </div>
+                <div class="google-signin-wrapper">
+                    <img id="loading-animation" src="{{url_for('static', filename='images/loading.svg')}}" alt="Loading animation" width="50px"  style="display: none;">
+                    <div id="buttonDiv" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="logincard__bread__box">
+            <div class="logincard__bread__inner-rect"></div>
+        </div>
+    </div>
+    
 </body>
 </html>

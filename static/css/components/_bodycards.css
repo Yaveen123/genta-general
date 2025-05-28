@@ -1,0 +1,101 @@
+.logincard__sandwich {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    min-width: 330px;
+    flex-direction: column;
+    align-items: center;
+
+   
+}
+
+
+
+.logincard__bread__box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.logincard__bread__inner-rect {
+    flex: 1 0 0;
+    align-self: stretch;
+    border-right: 1px solid #DEDDD9;
+    border-left: 1px solid #DEDDD9;
+    width: 400px;
+    max-width: 400px;
+    box-sizing: border-box;
+
+    
+}
+
+.logincard__filling_box {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    border-top: 1px solid #DEDDD9;
+    border-bottom: 1px solid #DEDDD9;
+}
+
+
+.logincard__filling_inner-rect {
+    display: flex;
+    max-width: 400px;
+    min-height: 200px; /* Reserve space to prevent jitter */
+    padding: 30px 25px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex: 1 0 0;
+    border-left: 1px solid #DEDDD9;
+    border-right: 1px solid #DEDDD9;
+    background: #FFF;
+    box-sizing: border-box;
+    position: relative;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.logincard__filling_inner-rect:hover {
+    box-shadow: inset 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+.google-signin-wrapper {
+    width: 240px; /* Standard Google button width */
+    height: 40px;  /* Standard Google button height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logincard__filling__inner-rect__box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

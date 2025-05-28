@@ -1,3 +1,6 @@
 /* base */
 @import url('base/_background.css');
 @import url('base/_typography.css');
+
+/* components */
+@import url('components/_bodycards.css');

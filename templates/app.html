@@ -1,0 +1,30 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Scripts, stylesheets, and fonts -->
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    <script src="{{url_for('static', filename='scripts/app.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+    
+    <!-- Fonts -->
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,400,500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+    <!-- Tab title -->
+    <title>Genta - Productivity for Individuals</title>
+</head>
+<body>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+        <p class="typography__heading--light">You're signed in!</p>
+        <button id="signOutButton">Sign out</button>
+    </div>
+</body>
+</html>

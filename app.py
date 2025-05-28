@@ -10,6 +10,16 @@ def home():
 
 # Define your database models here
 
+@app.route('/font-book')
+def fontbook():
+    response = make_response(render_template("font-book.html"))
+    return response
+
+@app.route('/app')
+def appMain():
+    response = make_response(render_template("app.html"))
+    return response
+
 #Only runs in flask not gunicorn
 if __name__ == '__main__':
     # Example of creating tables (if they don't exist)

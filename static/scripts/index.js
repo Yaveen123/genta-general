@@ -1,28 +1,5 @@
 let idToken = localStorage.getItem('idToken') || 'NULL';
 
-async function verifyLogin() {
-    const url = "https://genta-api.online/verify-login";
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + idToken,
-            }
-        });
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`)
-        }
-
-        const json = await response.json();
-        let stringJSON = JSON.stringify(json);
-        document.getElementById('hello').innerText = stringJSON;
-        console.log(json);
-    } catch (error) {
-        document.getElementById('hello').innerText = error.message;
-        console.error(error.message);
-    }
-}
-
 function decodeJwtResponse(token) {
     let base64Url = token.split('.')[1];
     let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -45,9 +22,8 @@ function handleCredentialResponse(response) {
 }
 
 function UpdateUISuccessful () {
-    window.location.replace(window.location.href + "/app.html")
+    window.location.replace(window.location.href + "app")
 }
-
 
 window.onload = function () {
     google.accounts.id.initialize({
@@ -78,3 +54,26 @@ window.onload = function () {
     }
 }
 
+
+async function verifyLogin() {
+    const url = "https://genta-api.online/verify-login";
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + idToken,
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`)
+        }
+
+        const json = await response.json();
+        let stringJSON = JSON.stringify(json);
+        document.getElementById('hello').innerText = stringJSON;
+        console.log(json);
+    } catch (error) {
+        document.getElementById('hello').innerText = error.message;
+        console.error(error.message);
+    }
+}
