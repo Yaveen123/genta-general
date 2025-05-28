@@ -31,26 +31,29 @@ window.onload = function () {
         callback: handleCredentialResponse
     });
 
-    // Only prompt for sign-in if there is no idToken in localStorage
     if (localStorage.getItem('idToken') === null || localStorage.getItem('idToken') === 'NULL') {
-        google.accounts.id.prompt(); // Display the One Tap dialog
+        document.getElementById('loading-animation').style.display = "none";
+        google.accounts.id.prompt();
         google.accounts.id.renderButton(
             document.getElementById("buttonDiv"),
-            {
-                theme: "outline", size: "large"
-            }  // customization attributes
+            { theme: "outline", size: "large" }
         );
-        
-        buttonDiv.style.display = 'block'
-
-        
+        buttonDiv.style.display = 'block';
     } else {
-        console.log("User already signed in (token found in localStorage).");
-        UpdateUISuccessful();
-        
-        // Optionally, you can call getData() here to immediately fetch data
-        // if a token is present.
-        // getData();
+        verifyLogin().then(isValid => {
+            if (isValid) {
+                UpdateUISuccessful();
+            } else {
+                document.getElementById('loading-animation').style.display = "none";
+                localStorage.removeItem('idToken');
+                google.accounts.id.prompt();
+                google.accounts.id.renderButton(
+                    document.getElementById("buttonDiv"),
+                    { theme: "outline", size: "large" }
+                );
+                buttonDiv.style.display = 'block';
+            }
+        });
     }
 }
 
@@ -67,13 +70,11 @@ async function verifyLogin() {
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`)
         }
-
         const json = await response.json();
-        let stringJSON = JSON.stringify(json);
-        document.getElementById('hello').innerText = stringJSON;
-        console.log(json);
+        
+        return true; // Verification successful
     } catch (error) {
-        document.getElementById('hello').innerText = error.message;
         console.error(error.message);
+        return false; // Verification failed
     }
 }
