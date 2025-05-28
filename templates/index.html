@@ -1,30 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Scripts, stylesheets, and fonts -->
     <script src="https://accounts.google.com/gsi/client" async></script>
-    <title>Genta - Productivity for individuals</title>
-    <script src="{{url_for('static', filename='index.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/index.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@900,700&display=swap" rel="stylesheet">
+
+    <!-- Tab title -->
+    <title>Genta - Productivity for Individuals</title>
 </head>
 <body>
-    <img src="{{url_for('static', filename='images/logoalpha.png')}}" alt="">
-    <h2>Welcome to Genta Frontend</h2>
-    <span>Welcome to this quick demonstration of the updates to <a href="https://genta-api.online/">https://genta-api.online/</a><!/span>
-    <p>Genta operates on 3 main API routes that you're able to test.</p>
-    <p id="textcorr" style="color: purple;">Checking your authentication status...</p>
-    <div id="buttonDiv"></div>
-    
-    <p id="hello"></p>
-    <button type="button" id="verifyLoginButton">Test /verify-login</button>
-    <button type="button" id="getDataButton">Test /get-data</button>
-    <button type="button" id="updateDataButton">Test /update-data *doesn't work</button>
-    
-
-    <!-- <a href="http://genta-api.online/add_user">Click here to view raw data from genta-api.online</a> --> 
-    <p></p>
-    <button type="button" id="signOutButton" style="display: None;">Sign out of Google</button>
-
-
+    <div id="buttonDiv" style="display: none;"></div>
 </body>
 </html>

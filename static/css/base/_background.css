@@ -1,0 +1,28 @@
+html {
+    height: 100%; /* Ensure the html element can be a reference for 100% height */
+    margin: 0; /* Remove default browser margins */
+    padding: 0; /* Remove default browser padding */
+}
+
+body {
+    min-height: 100vh; /* Set minimum height to 100% of the viewport height */
+    /* Alternatively, if you've set html { height: 100%; }, you could use: */
+    /* min-height: 100%; */
+    margin: 0; /* Remove default browser margins from the body */
+    background: repeating-linear-gradient(
+        130deg, /* Angle of the stripes */
+        #FBFBF9, /* First colour */
+        #FBFBF9 8px, /* End of first colour */
+        #F5F4F2 8px, /* Start of second colour */
+        #F5F4F2 9px /* End of second colour */
+    );
+}
+
+.text-header{
+    color: #1E1D1A;
+    font-family: Satoshi;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
