@@ -9,7 +9,7 @@
     
     <!-- Scripts, stylesheets, and fonts -->
     <script src="https://accounts.google.com/gsi/client" async></script>
-    <script src="{{url_for('static', filename='scripts/app.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/app/g-sign-in.js')}}"></script>
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
     
     <!-- Fonts -->
@@ -22,10 +22,49 @@
     <title>Genta - Productivity for Individuals</title>
 </head>
 <body>
-    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
-        <p class="typography__heading--light">Welcome!</p>
-        <img id="loading-animation" src="{{url_for('static',filename='images/loading.svg')}}" width="50px" alt="Loading animation">
-        <button id="signOutButton" style="display: none;">Sign out</button>
+    <button id="signOutButton" style="display: none;">Sign out</button>
+
+    <div class="main-body">
+        <div class="header--open">
+            <div class="header__inner-box--open">
+                <img src="{{url_for('static', filename='images/genta-logo.svg')}}" alt="Genta logo">
+                <img id="loading-animation" src="{{url_for('static',filename='images/loading.svg')}}" width="50px" alt="Loading animation">
+                <div class="header__icon__hamburger" id="hamburger-button">
+                    <img src="{{url_for('static', filename='images/icons/hamburger.svg')}}" alt="Open menu icon">
+                </div>
+            </div>
+
+            <div class="header__link-container" style="display: none;">
+                <div class="header__link">
+                    <p class="header__link__text typography__subtitle--link">
+                        Software Engineering Major
+                    </p>
+                </div>
+                <div class="header__link">
+                    <p class="header__link__text typography__subtitle--link">
+                        Enterprise Computing Major
+                    </p>
+                </div>
+                <div class="header__link">
+                    <div class="header__link__group--green">
+                        <img src="{{url_for('static', filename='images/icons/add.svg')}}" alt="">
+                        <p class="header__link__text typography__subtitle--clickable">
+                            New Project
+                        </p>
+                    </div>
+                </div>
+                <div class="header__link">
+                    <div class="header__link__group--red">
+                        <img src="{{url_for('static', filename='images/icons/logout.svg')}}" alt="">
+                        <p class="typography__subtitle--clickable-warn">
+                            Sign out
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
     </div>
+    
 </body>
 </html>

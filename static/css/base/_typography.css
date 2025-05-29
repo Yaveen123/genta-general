@@ -81,6 +81,16 @@ p {
     letter-spacing: -0.4px;
 }
 
+.typography__subtitle--clickable-warn {
+    color: #ff0000;
+    font-family: Satoshi;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: -0.4px;
+}
+
 .typography__subtitle--link {
     color: #1E1D1A;
     font-family: Satoshi;
@@ -91,8 +101,8 @@ p {
     letter-spacing: -0.4px;
     text-decoration-line: underline;
     text-decoration-style: solid;
-    text-decoration-skip-ink: auto;
-    text-decoration-thickness: auto;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: 1px;
     text-underline-offset: auto;
     text-underline-position: from-font;
 }

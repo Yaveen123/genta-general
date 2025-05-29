@@ -9,11 +9,6 @@ function signOut() {
     if (buttonDiv) {
         buttonDiv.style.display = 'block'; // Show the sign-in button again
     }
-    const helloElement = document.getElementById('hello');
-    if (helloElement) {
-        helloElement.innerText = "Signed out."; // Update any displayed user info
-    }
-
     // 4. Optionally, redirect the user to a different page (e.g., the homepage)
     window.location.href = '/';
 }
@@ -33,14 +28,13 @@ window.onload = function () {
         verifyLogin().then(isValid => {
             if (isValid) {
                 document.getElementById('loading-animation').style.display = "None";
-                document.getElementById('signOutButton').style.display = "Block";
+                // document.getElementById('signOutButton').style.display = "Block";
             } else {
                 window.location.replace("/");
             }
         });
     }
 }
-
 
 async function verifyLogin() {
     const idToken = localStorage.getItem('idToken');

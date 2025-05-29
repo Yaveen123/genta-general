@@ -1,6 +1,8 @@
 /* base */
 @import url('base/_background.css');
+@import url('base/_main-body.css');
 @import url('base/_typography.css');
 
 /* components */
 @import url('components/_bodycards.css');
+@import url('components/_title-bar.css');
