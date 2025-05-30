@@ -9,6 +9,7 @@ body {
     /* Alternatively, if you've set html { height: 100%; }, you could use: */
     /* min-height: 100%; */
     margin: 0; /* Remove default browser margins from the body */
+    overflow: hidden; /* Prevent scrolling */
     background: repeating-linear-gradient(
         130deg, /* Angle of the stripes */
         #FBFBF9, /* First colour */
@@ -26,4 +27,14 @@ body {
     font-weight: 700;
     line-height: normal;
 }
+
+/* Goldfield, V (2011) How to make HTML text unselectable https://stackoverflow.com/questions/2310734/how-to-make-html-text-unselectable  */
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    }
 

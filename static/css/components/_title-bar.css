@@ -1,33 +1,36 @@
+
+/* Header object (the bit that says "Genta" with the hamburger icon */
 .header {
     display: flex;
     width: 100vw;
+    height: 50px;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: 8px;
     position: absolute;
     border-bottom: 1px solid #DEDDD9;
-    background: #FFF;
+    background: #FFFFFF;
+
+    /* Transition items; add a shadow undearneath and make the height expand */
+    overflow: hidden;
+    transition: box-shadow 0.3s, height 0.3s ease; 
 }
-.header--open {
-    display: flex;
-    width: 100vw;
-    flex-direction: column;
+.header--open.header { /*This is the DRY (don't repeat yourself) principle in play here. a*/
+    /* Set a dummy height. THis is changed by the JS with a formula that calculates the actual height it needs to be */
+    /* This allows it to transition from small to big */
+    height: 400px; 
     justify-content: center;
-    align-items: center;
-    position: absolute;
-    border-bottom: 1px solid #DEDDD9;
-    background: #FFF;
     box-shadow: 0px 15px 195px 0px rgba(0, 0, 0, 0.25);
 }
 
 
+/* The box inside the titlebar that contain the actual items */
 .header__inner-box {
     display: flex;
     height: 50px;
     width: 100%;
-    max-width: 1000px;
-    padding: 0px 20px;
+    max-width: 1000px; /*most important bit - restricts the width to only expand to 1000px, making that column that fits the rest of the content */
+    padding: 20px 20px;
     justify-content: space-between;
     align-items: center;
     align-content: center;
@@ -37,30 +40,28 @@
     border-left: 1px solid #DEDDD9;
     box-sizing: border-box;
 }
-.header__inner-box--open {
-    display: flex;
-    height: 50px;
-    width: 100%;
-    max-width: 1000px;
+.header__inner-box--open.header__inner-box {
     padding: 0px 20px;
-    justify-content: space-between;
-    align-items: center;
-    align-content: center;
-    row-gap: 26px;
-    flex-wrap: wrap;
-    border-right: 1px solid #DEDDD9;
-    border-left: 1px solid #DEDDD9;
     border-bottom: 1px solid #DEDDD9;
-    box-sizing: border-box;
 }
 
+/* Not the icon itself but the box around it */
 .header__icon__hamburger {
+    cursor: pointer;
     width: 24px;
     height: 24px;
     aspect-ratio: 1/1;
+    opacity: 100%;
+    transition: all 0.3s ease;
+}
+.header__icon__hamburger:hover {
+    opacity: 50%;
+    transition: all 0.1s ease;
 }
 
+/* The links in the header */
 .header__link{
+    cursor: pointer;
     width: 100%;
     display: flex;
     max-width: 1000px;
@@ -73,14 +74,104 @@
     border-bottom: 1px solid #DEDDD9;
     border-left: 1px solid #DEDDD9;
     box-sizing: border-box;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0);
+
+    /* Transitions */
+    transition: all 0.3s ease;
 }
 
+/* CSS Variables to enable context colouring based on child objects */
+/* I followed this source for the idea touse variables, even if it was a parent->child instead of child->parent */
+/* runofthemillgeek (2017) Set parent's background colour https://stackoverflow.com/questions/45580218/css-set-color-to-parents-background-color */
+
+/* Default colours */
+.header__link {
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --accent-color: #4f4f4f67;
+}
+.header__link:active {
+    --shadow-color: rgba(0, 0, 0, 0.53);
+    --accent-color: #4f4f4f94;
+}
+
+/* This is the hover animation that makes the inset shadow and the marching ants */
+/* MDN (n.d.) repeating-linear-gradient() https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/repeating-linear-gradient */
+/* N.A. (n.d.) Pure CSS marching ants https://codepen.io/AMKohn/pen/DbdKgo */
+.header__link:hover {
+    box-shadow: inset 0px 0 20px -10px var(--shadow-color), inset 0px 0 20px -10px var(--accent-color);
+    /* This is treated as three background "images" */
+    background-image: 
+    linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,1), rgba(255,255,255,0)), /* Makes it fade out */
+    repeating-linear-gradient( /* \\\ white stripes (breaks the accented ones to make the "marching" look) */
+        -45deg,
+        transparent,
+        transparent 7px,
+        #ffffff 7px,
+        #ffffff 10px
+        ),  
+        repeating-linear-gradient( /* /// accented stripes*/
+        45deg,
+        transparent,
+        transparent 9px,
+        var(--accent-color) 9px,
+        var(--accent-color) 10px
+    );
+    background-size: 100% 100%, 100px 100px, 100px 100px; /*lines are fixed to 100px to prevent jumping but idk why it still jumps*/
+    background-repeat: no-repeat, repeat, repeat;
+    opacity: 0.7;
+    animation: marching-ants 2s linear infinite;
+    box-sizing: border-box;
+    transition: all 0.1s ease;
+}
+/* Yes this took me a whole day but it was worth it */
+
+/* Colour scheme for red (< Sign out) */
+.header__link:has(.header__link__group--red):hover {
+    --shadow-color: rgba(184, 0, 0, 0.372);
+    --accent-color: #ff00005e;
+}
+.header__link:has(.header__link__group--red) {
+    --shadow-color: rgba(184, 0, 0, 0.372);
+    --accent-color: #ff00005e;
+}
+
+/* Colour scheme for green (+ add project) */
+.header__link:has(.header__link__group--red):active {
+    --shadow-color: rgba(184, 0, 0.2, 0.5);
+    --accent-color: #ff0000c2;
+}
+
+.header__link:has(.header__link__group--green):hover {
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --accent-color: #AFF200;
+}
+.header__link:has(.header__link__group--green):active {
+    --shadow-color: rgba(0, 0, 0.2, 0.5);
+    --accent-color: #98d400;
+}
+
+/* This is the thing that makes it actually "march" */
+@keyframes marching-ants {
+    0% {
+    background-position: 0 0, 0 0, 0 0;
+}
+    100% {
+    background-position: 0 0, -21px -21px, 0px 0px; 
+    /* The three "images" are being shifted */
+    /* 1. No shift to the white grad */
+    /* 2. white lines go up left */
+    /* 3. accented lines stay still */
+    }
+}
+
+/* Add proj */
 .header__link__group--green {
     display: flex;
     align-items: center;
     border-bottom: 1px solid #648A00;
     gap: 5px;
 }
+/* Sign out */
 .header__link__group--red {
     display: flex;
     align-items: center;
@@ -88,6 +179,7 @@
     gap: 5px;
 }
 
+/* All text */
 .header__link__text {
     flex: 1 0 0;
 }
@@ -96,4 +188,3 @@
     width: 100%;
     max-width: 1000px;
 }
-
