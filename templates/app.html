@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <div id="header__link-container" class="header__link-container" style="opacity: 0;">
+            <div id="header__link-container" class="header__link-container"">
                 <div class="header__link">
                     <p class="header__link__text typography__subtitle--link">
                         Software Engineering Major
@@ -57,7 +57,7 @@
                 </div>
                 <div class="header__link">
                     <div class="header__link__group--green">
-                        <img src="{{url_for('static', filename='images/icons/add.svg')}}" alt="">
+                        <img src="{{url_for('static', filename='images/icons/add.svg')}}" class="unselectable" alt="">
                         <p class="header__link__text typography__subtitle--clickable">
                             New Project
                         </p>
@@ -72,6 +72,70 @@
                     </div>
                 </div>
                 
+            </div>
+
+
+
+        </div>
+
+        <div style="height: 50px;"></div>
+        <div class="event-outer-box">
+            <div class="event">
+                <div class="event__header">
+                    <div class="event__title-date-container">
+                        <p class="event__title-date-container__text typography__heading unselectable">
+                            Milestone 1
+                        </p>
+                        <div class="event__title-date-container__date-container">
+                            <div class="date-chip">
+                                <div class="date-chip__date-container ">
+                                    <img src="{{url_for('static',filename='images/icons/clock.svg')}}" class="unselectable" alt="clock">
+                                    <p class="typography__code unselectable">
+                                        12-20-2025
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <img src="{{url_for('static', filename='images/icons/settings.svg')}}" class="unselectable" alt="Settings icon">
+                </div>
+                <div class="expandable-content">
+                    <div class="expandable-content__expand-collapse-container">
+                        <div class="expandable-content__expand-collapse-container__text-container">
+                            <img src="{{url_for('static', filename='images/icons/up-arrow.svg')}}" class="expandable-content__expand-collapse-container__text-container__arrow-icon unselectable" alt="">
+                            <p class="typography__body--clickable unselectable">
+                                Close
+                            </p>
+                        </div>
+                    </div>
+                    <div class="expandable-content__content_container">
+                        <div class="ev__todo-container">
+                            <p class="typography__subtitle--bold unselectable">
+                                Todo
+                            </p>
+                            <div class="ev__todo-item">
+                                <div class="ev__todo-item__icon--completed unselectable">?</div>
+                                <p class="typography__body--strikethrough">Item completed</p>
+                            </div>
+                            <div class="ev__todo-item">
+                                <div class="ev__todo-item__icon--uncompleted unselectable"></div>
+                                <p class="typography__body">Item uncompleted</p>
+                            </div>
+                            <div class="ev__todo-item">
+                                <div class="ev__todo-item__icon--uncompleted unselectable"></div>
+                                <p class="temp-type-newtypoico">Type new item...</p>
+                            </div>
+                        </div>
+                        <div class="ev__notes-content">
+                            <p class="typography__subtitle--bold unselectable">
+                                Heading
+                            </p>
+                            <div class="ev__notes-content__content-container">
+                                <p class="typography__body--light">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque nobis deleniti quasi eius in asperiores mollitia eligendi nihil dignissimos, sequi perferendis id veritatis ad facere praesentium consequatur a eos vitae?</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

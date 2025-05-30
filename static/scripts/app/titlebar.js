@@ -1,8 +1,11 @@
+// Init vars so they remain global
 let element_hamburgerButton;
 let element_headerInnerBox;
 let element_header;
 let element_headerLinkContainer;
 
+
+// Create vars that represent elements when page has loaded (DOMContentLoad)
 document.addEventListener('DOMContentLoaded', function() {
     element_hamburgerButton = document.getElementById('hamburger-button'); // Assuming you have a button with this ID
     element_headerInnerBox = document.getElementById('header__inner-box');
@@ -14,23 +17,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Delay func
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 
+// Titlebar and elements inside are toggled based on open/close
 async function toggleTitlebarState() {
+    // Header is opened, adding/removing the open tag based on whether its opened or not
     if (element_header) {
         element_header.classList.toggle('header--open');
     }
     if (element_headerInnerBox) {
         element_headerInnerBox.classList.toggle('header__inner-box--open');
     }
-
     const isOpen = element_header && element_header.classList.contains('header--open');
     
+    // Calc the height to set the header
     let heightToSet = 50 + document.getElementsByClassName("header__link").length * 68;
     
+
+    // If its open then change the header height to that otherwise make it smaller
     if (element_header) {
         if (isOpen) {
             element_header.style.height = heightToSet.toString() + "px";
@@ -39,27 +47,15 @@ async function toggleTitlebarState() {
         }
     }
 
-    
+    // hamburger icon changes to an x when opened
     const hamburgerIcon = document.getElementById("hamburger-icon");
     if (hamburgerIcon) {
-        hamburgerIcon.src = isOpen ? "./static/images/icons/cross.svg" : "./static/images/icons/hamburger.svg";
-    }
-    
-    if (!element_headerLinkContainer) return;
+        if (isOpen) {
+            hamburgerIcon.src = "./static/images/icons/cross.svg"
+        } else {
+            hamburgerIcon.src = "./static/images/icons/hamburger.svg";
 
-    const currentOpacity = element_headerLinkContainer.style.opacity || "0";
-    
-    if (parseFloat(currentOpacity) < 1 && isOpen) {
-        for (let linkElement of document.getElementsByClassName("header__link")) {
-            linkElement.style.opacity = "0";
         }
-        element_headerLinkContainer.style.opacity = "1";
-        for (let linkElement of document.getElementsByClassName("header__link")) {
-            linkElement.style.opacity = "1";
-            await delay(50);
-        }
-    } else {
-        element_headerLinkContainer.style.opacity = "0";
     }
 }
 

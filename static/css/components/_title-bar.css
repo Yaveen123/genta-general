@@ -8,19 +8,24 @@
     justify-content: flex-start;
     align-items: center;
     position: absolute;
+    top: 0px;
     border-bottom: 1px solid #DEDDD9;
     background: #FFFFFF;
 
-    /* Transition items; add a shadow undearneath and make the height expand */
+    /* Transition items; add a shadow underneath and make the height expand */
     overflow: hidden;
-    transition: box-shadow 0.3s, height 0.3s ease; 
+    transition: box-shadow 0.3s, height 0.3s ease;
+    /* Initial state - collapsed */
 }
+
 .header--open.header { /*This is the DRY (don't repeat yourself) principle in play here. a*/
-    /* Set a dummy height. THis is changed by the JS with a formula that calculates the actual height it needs to be */
+    /* Set a dummy height. This is changed by the JS with a formula that calculates the actual height it needs to be */
     /* This allows it to transition from small to big */
-    height: 400px; 
-    justify-content: center;
+    
+    justify-content: flex-start;
     box-shadow: 0px 15px 195px 0px rgba(0, 0, 0, 0.25);
+    
+    height: 400px; 
 }
 
 
@@ -39,10 +44,15 @@
     border-right: 1px solid #DEDDD9;
     border-left: 1px solid #DEDDD9;
     box-sizing: border-box;
+    box-shadow: inset 0px 0px 1px 0px rgba(0, 0, 0, 0.1); /*a very tiny very lazy shadow to simulate a border when the header is open*/
+
+    transition: all 0.3s ease-out;
 }
 .header__inner-box--open.header__inner-box {
-    padding: 0px 20px;
-    border-bottom: 1px solid #DEDDD9;
+
+    transition: all 0.0s ease;
+    box-shadow: inset 0px -1px 1px 0px rgba(0, 0, 0, 0.2);
+    
 }
 
 /* Not the icon itself but the box around it */
@@ -52,11 +62,11 @@
     height: 24px;
     aspect-ratio: 1/1;
     opacity: 100%;
-    transition: all 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 .header__icon__hamburger:hover {
     opacity: 50%;
-    transition: all 0.1s ease;
+    transition: opacity 0.1s ease;
 }
 
 /* The links in the header */
@@ -118,7 +128,6 @@
     );
     background-size: 100% 100%, 100px 100px, 100px 100px; /*lines are fixed to 100px to prevent jumping but idk why it still jumps*/
     background-repeat: no-repeat, repeat, repeat;
-    opacity: 0.7;
     animation: marching-ants 2s linear infinite;
     box-sizing: border-box;
     transition: all 0.1s ease;
@@ -137,7 +146,7 @@
 
 /* Colour scheme for green (+ add project) */
 .header__link:has(.header__link__group--red):active {
-    --shadow-color: rgba(184, 0, 0.2, 0.5);
+    --shadow-color: rgba(184, 0, 0, 0.5);
     --accent-color: #ff0000c2;
 }
 
@@ -146,7 +155,7 @@
     --accent-color: #AFF200;
 }
 .header__link:has(.header__link__group--green):active {
-    --shadow-color: rgba(0, 0, 0.2, 0.5);
+    --shadow-color: rgba(0, 0, 0, 0.5);
     --accent-color: #98d400;
 }
 
@@ -160,7 +169,7 @@
     /* The three "images" are being shifted */
     /* 1. No shift to the white grad */
     /* 2. white lines go up left */
-    /* 3. accented lines stay still */
+    /* 3. accented lines stay */
     }
 }
 
