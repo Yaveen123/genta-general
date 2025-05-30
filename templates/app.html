@@ -22,13 +22,20 @@
     <!-- Tab title -->
     <title>Genta - Productivity for Individuals</title>
     <meta name="description" content="Genta organises your projects, events, and todo lists in one seamless, beautiful and functional flow.">
-    <link rel="canonical" href="https://genta.live"/>
+
+    <!-- Embeds -->
+    <meta name="twitter:title" content="Genta - Productivity for Individuals">
+    <meta name="twitter:description" content="Genta organises your projects, events, and todo lists in one seamless, beautiful and functional flow. It's project management, made for you, by people like you!">
+    <meta name="twitter:image" content="{{url_for('static', filename='images/meta-image.png')}}">
+    <meta name="twitter:card" content="summary_large_image">
+
 </head>
 <body>
     <button id="signOutButton" style="display: none;">Sign out</button>
 
     <div class="main-body">
         <div id="header" class="header unselectable">
+
             <div id="header__inner-box" class="header__inner-box">
                 <img src="{{url_for('static', filename='images/genta-logo.svg')}}" alt="Genta logo" width="60px" draggable="false">
                 <img id="loading-animation" src="{{url_for('static',filename='images/loading.svg')}}" width="50px" alt="Loading animation" draggable="false">
