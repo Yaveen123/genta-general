@@ -5,10 +5,10 @@
     align-self: stretch;
     border-bottom: 1px solid #DEDDD9;
     background: #FDFDFC;
-
 }
 
 .event {
+    height: auto;
     display: flex;
     width: 100%;
     max-width: 1000px;
@@ -21,8 +21,23 @@
     border-left: 1px solid #DEDDD9;
 
     box-sizing: border-box;
+
+    transition: all 0.3s;
+    opacity: 100%;
+    display: auto;
 }
 
+.event--in-edit-mode {
+    max-height: 0px;
+    padding: 0px;
+    visibility: hidden;
+    opacity: 0%;
+    transition: all 0.3s;
+}
+
+.event--in-edit-mode * {
+    opacity: 0;
+}
 
 
 /* MARK: Event header */
@@ -33,10 +48,18 @@
     align-self: stretch;
 }
 
-.event__header__settings-icon {
+.event_title__settings-icon {
+    cursor: pointer;
     width: 33.389px;
     height: 33.333px;
     aspect-ratio: 33.39/33.33;
+    opacity: 40%;
+    transition: opacity 0.3s ease;
+}
+
+.event_title__settings-icon:hover {
+    opacity: 100%;
+    transition: opacity 0.1s ease;
 }
 
 .event__title-date-container {
@@ -93,6 +116,26 @@
     letter-spacing: -0.84px;
 }
 
+.event-title-input {
+    border-radius: 0px;
+    background-color: #AFF200;
+    outline: none;
+    border: none;
+}
+
+.event-date-input {
+    border-radius: 0px;
+    background-color: #AFF200;
+    outline: none;
+    border: none;
+    color: #000;
+}
+.event-date-input::placeholder {
+    color: #000;
+}
+.event-date-input:hover {
+    color: #000;
+}
 /* MARK: expandable */
 .expandable-content {
     display: flex;
@@ -142,6 +185,8 @@ align-self: stretch;
     align-items: flex-start;
     gap: 10px;
     flex: 1 0 0;
+    max-height: 350px;
+    overflow-y: auto;
 }
 
 .ev__todo-item {
@@ -149,18 +194,78 @@ align-self: stretch;
     align-items: flex-start;
     gap: 8px;
     align-self: stretch;
+    width: 100%;
+    position: relative;
 }
 
-.ev__todo-item__icon--uncompleted {
+.ev__todo-item__icon--uncompleted, .ev__todo-item__icon--completed {/* Shared styles */
     width: 19px;
     height: 19px;
     aspect-ratio: 1/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.ev__todo-item__icon--uncompleted { /* Only uncompleted */
     border-radius: 1px;
     border: 1px solid #DEDDD9;
+    box-sizing: border-box;
 }
-.ev__todo-item__icon--completed {
-    width: 19px;
-    height: 19px;
+.ev__todo-item__icon--uncompleted:hover, .ev__todo-item__icon--completed:hover {
+    box-shadow: inset 0px 0 20px -10px rgba(0, 0, 0, 0.2);
+    transition: all 0.1s ease;
+}
+.ev__todo-item__icon--uncompleted:active , .ev__todo-item__icon--completed:active {
+    border: 1px solid #DEDDD9;
+}
+
+.ev__todo-item__icon--completed { /* Only completed */
+    border-radius: 2px;
+    background-color: #AFF200;
+    border: 1px solid #AFF200;
+}
+
+.ev__todo-item__icon--uncompleted .ev__todo-item__icon__tick {
+    display: none;
+}
+
+
+
+.ev__todo-item__icon--uncompleted + .todo-item__text {
+    color: #636363;
+    font-family: Satoshi;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-break:break-all
+}
+
+.ev__todo-item__icon--completed + .todo-item__text {
+    color: #8f8f8fa0;
+    font-family: Satoshi;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-decoration-line: line-through;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-break:break-all
+}
+
+#todo-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1 0 0;
+    width: 100%;
 }
 
 /* MARK: exp // notes */
@@ -183,22 +288,45 @@ align-self: stretch;
 
 .ev__notes-content__content-container {
     display: flex;
-    max-height: 200px;
+    max-height: 300px;
     padding: 10px;
+    padding-bottom: 0px;
+    padding-top: 8px;
     justify-content: center;
     align-items: flex-start;
     gap: 10px;
     align-self: stretch;
     border-radius: 4px;
     border: 1px solid #DEDDD9;
+    transition: all 0.3s ease;
+    outline: 1px solid #ffffff;
+    resize: none;
+}
+.ev__notes-content__content-container:hover {
+    box-shadow: inset 0px 0 20px -10px rgba(0, 0, 0, 0.2);
+    transition: all 0.1s ease;
+    outline: 1px solid #ffffff;
 }
 
-/* MARK: edit mode */
+/* MDN (n.d.) ::placeholder https://developer.mozilla.org/en-US/docs/Web/CSS/::placeholder */
+.ev__notes-content__content-container::placeholder {
+    opacity: 50%;
+}
+/* 'CEich' (2010) How to remove focus border (outline) around text/input boxes? https://stackoverflow.com/questions/3397113/how-to-remove-focus-border-outline-around-text-input-boxes-chrome */
+.ev__notes-content__content-container:focus {
+    outline: 1px solid #DEDDD9;
+    box-shadow: inset 0px 0 20px -10px rgba(0, 0, 0, 0.53);
+    transition: all 0.1s ease;
+}
+
+
+
 .edit-box {
-    display: flex;
-    height: 199px;
+    width: 100%;            
     max-width: 1000px;
-    padding: 15px 20px;
+    margin-left: auto;
+    margin-right: auto;
+    
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
@@ -206,14 +334,41 @@ align-self: stretch;
     border-right: 1px solid #DEDDD9;
     border-left: 1px solid #DEDDD9;
     background: #AFF200;
+    box-sizing: border-box;
+    
+    max-height: 0px;
+    padding: 0px;
+
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    
+
+}
+
+.edit-box--in-edit-mode {
+    visibility: visible;
+    opacity: 1; 
+    max-height: 202px;
+    padding: 15px 20px;
+}
+.edit-box * {
+    opacity: 0;
+}
+
+.edit-box--in-edit-mode * {
+    opacity: 1;
+    transition: opacity 0.4s ease;
 }
 
 .edit-box__cancel-box {
+    cursor: pointer;
     display: flex;
     align-items: center;
     gap: 5px;
     border-bottom: 1px solid #F00;
 }
+
 
 .edit-box__cancel-box-icon {
     width: 22.274px;
@@ -248,21 +403,90 @@ align-self: stretch;
     align-items: center;
     gap: 10px;
     border-radius: 4px;
+    border: none;
     background: #000;
+    transition: all 0.2s ease;
 }
+.edit-box__box:hover {
+    background: #333;
+    border-radius: 0;
+    transform: translateY(-1px);
+    border: none;
+}
+.edit-box__box:active {
+    background: #333;
+    border-radius: 0;
+    transform: translateY(1px);
+    border: none;
+}
+
 
 /* MARK: Temp */
 .temp-type-newtypoico {
-    color: #71717188;
+    transition: all 0.3s;
+    background-color: #FDFDFC;
+    color: #719D00;
     font-family: Satoshi;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
+    border: none;
     text-decoration-line: underline;
     text-decoration-style: dotted;
-    text-decoration-skip-ink: auto;
+    text-decoration-skip-ink: none;
+    border-bottom: 1px solid #ffffff;
+    width: 100px;
+}
+
+
+
+.temp-type-newtypoico:focus {
+    transition: all 0.1s;
+    outline: none;
+    border-bottom: 1px solid #5C7F00;
+    text-decoration-line: none;
+    width: 100%;
+}
+.temp-type-newtypoico::placeholder{
+    transition: all 0.1s;
+    color: #71717188;
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    text-decoration-skip-ink: none;
     text-decoration-thickness: auto;
     text-underline-offset: auto;
     text-underline-position: from-font;
 }
+.temp-type-newtypoico:hover::placeholder {
+    transition: all 0.1s;
+    color: #719D00;
+    text-decoration-line: none;
+}
+
+.temp-type-newtypoico:focus::placeholder {
+    transition: all 0.1s;
+    text-decoration-line: none;
+}
+
+.todo-item__text {
+    flex: 1 1 0;
+    min-width: 0;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.ev__todo-item__icon--trash {
+    opacity: 0;
+    position: absolute; 
+    left: 20px; 
+    top:-3px; 
+    z-index: 10;
+    background-color: #FFF;
+    box-shadow: 10px 10px 10px #FFF;
+    transition: 0.1s all;
+}
+
+
+

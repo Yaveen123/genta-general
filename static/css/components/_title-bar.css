@@ -7,8 +7,9 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    position: absolute;
+    position: fixed;
     top: 0px;
+    z-index: 1000;
     border-bottom: 1px solid #DEDDD9;
     background: #FFFFFF;
 

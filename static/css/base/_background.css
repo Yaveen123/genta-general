@@ -9,7 +9,8 @@ body {
     /* Alternatively, if you've set html { height: 100%; }, you could use: */
     /* min-height: 100%; */
     margin: 0; /* Remove default browser margins from the body */
-    overflow: hidden; /* Prevent scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-y: auto; /* Allow vertical scrolling */
     background: repeating-linear-gradient(
         130deg, /* Angle of the stripes */
         #FBFBF9, /* First colour */
@@ -36,5 +37,16 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    }
+}
 
+
+/* W3Schools (n.d.)  How TO - Change Text Selection Color https://www.w3schools.com/howto/howto_css_text_selection.asp*/
+::-moz-selection { /* Code for Firefox */
+    color: #000000;
+    background: #AFF200;
+}
+
+::selection {
+    color: #000000;
+    background: #AFF200;
+}
