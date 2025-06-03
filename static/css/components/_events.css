@@ -354,7 +354,7 @@ align-self: stretch;
 .edit-box--in-edit-mode {
     visibility: visible;
     opacity: 1; 
-    max-height: 202px; /* Large enough to fit any content, but not fixed */
+    max-height: 1000px; /* Large enough to fit any content, but not fixed */
     padding: 15px 20px;
 }
 .edit-box * {
