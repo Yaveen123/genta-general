@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 // MARK: generateID()
-// How can I create unique IDs with JS? https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript
+// How can I create unique IDs with JS? https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript a
 function generateID() {
     return crypto.randomUUID();
 }
