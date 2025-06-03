@@ -17,15 +17,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+
 document.addEventListener('DOMContentLoaded', function() {
-    const dateInput = document.getElementById('event-date-input');
-    const dateDisplay = document.getElementById('event-date-display');
+    Array.from(document.getElementsByClassName("event-outer-box")).forEach(element => {
 
-    function formatDateToDDMMYYYY(dateStr) {
-        if (!dateStr) return '';
-        const [yyyy, mm, dd] = dateStr.split('-');
-        return `${dd}/${mm}/${yyyy}`;
+        // Use class selectors for date input/display
+        const dateInput = element.querySelector('.event-date-input');
 
-    }
-    dateDisplay.textContent = formatDateToDDMMYYYY(dateInput.value);
+        // set day to today
+        dateInput.valueAsDate = new Date();
+
+    });
 });

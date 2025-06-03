@@ -191,11 +191,17 @@ align-self: stretch;
 
 .ev__todo-item {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 8px;
-    align-self: stretch;
     width: 100%;
     position: relative;
+    margin-bottom: 8px; 
+}
+
+.todo-input.temp-type-newtypoico {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
 }
 
 .ev__todo-item__icon--uncompleted, .ev__todo-item__icon--completed {/* Shared styles */
