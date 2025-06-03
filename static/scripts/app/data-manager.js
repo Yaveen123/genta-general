@@ -112,13 +112,16 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     if (caseResult) {
-        console.log('TEST CASE 2 PASSED -> Able to generate version ID')
+        console.log(`TEST CASE 2 PASSED -> Able to generate version ID, example: ${generateID()}`)
     } else {
         console.log('TEST CASE 2 FAILED: unspecified error')
+        return
     }
 });
 
+// MARK: generateID()
 // How can I create unique IDs with JS? https://stackoverflow.com/questions/3231459/how-can-i-create-unique-ids-with-javascript
 function generateID() {
     return crypto.randomUUID();
 }
+
