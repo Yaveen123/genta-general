@@ -340,20 +340,21 @@ align-self: stretch;
     box-sizing: border-box;
     
     max-height: 0px;
-
+    padding: 0px;
 
     display: flex;
     visibility: hidden;
     opacity: 0;
     
-    overflow: hidden; 
-    min-height: 0;    
+    overflow: hidden;
+    min-height: 0;
+
 }
 
 .edit-box--in-edit-mode {
     visibility: visible;
     opacity: 1; 
-    max-height: 202px;
+    max-height: 202px; /* Large enough to fit any content, but not fixed */
     padding: 15px 20px;
 }
 .edit-box * {
@@ -363,8 +364,6 @@ align-self: stretch;
 .edit-box--in-edit-mode * {
     opacity: 1;
     transition: opacity 0.4s ease;
-    max-height: 202px;
-    padding: 15px 20px;
 }
 
 .edit-box__cancel-box {
