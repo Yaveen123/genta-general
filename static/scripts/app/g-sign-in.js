@@ -50,6 +50,8 @@ async function verifyLogin() {
             throw new Error(`Response status: ${response.status}`)
         }
         const json = await response.json();
+
+        setAuthToken(idToken)
         
         return true; // Verification successful
     } catch (error) {
