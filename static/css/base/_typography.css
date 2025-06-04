@@ -9,6 +9,8 @@ p {
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .typography__heading--editable {

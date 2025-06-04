@@ -1,14 +1,25 @@
-document.addEventListener('DOMContentLoaded', function() {
+function startTodoEventListeners () {
     document.querySelectorAll('.todo-input-item-main').forEach((todoInputItem) => {
         todoInputItem.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
-                const todoList = todoInputItem.closest('.todo-list');
+                const todoEventContainer = todoInputItem.closest('.ev__todo-container');
+                if (!todoEventContainer) {
+                    console.error("Error: '.ev__todo-container' not found for todo input.");
+                    return;
+                }
+                const todoList = todoEventContainer.querySelector('.todo-list');
+                if (!todoList) {
+                    console.error("Error: '.todo-list' not found within '.ev__todo-container'.");
+                    return;
+                }
                 addTodo(todoInputItem.value, todoList, todoInputItem);
                 todoInputItem.value = '';
             }
         });
     });
-});
+}
+window.startTodoEventListeners = startTodoEventListeners; 
+// now it can be used in dom-main and datamgr
 
 function addTodo(text, todoList, todoInput) {
     if (!text.trim()) {
@@ -54,7 +65,7 @@ function addTodo(text, todoList, todoInput) {
         item.remove();
     });
 
-    todoList.insertBefore(item, todoInput.parentElement);
+    todoList.appendChild(item);
 }
 
 // toggles the todo 

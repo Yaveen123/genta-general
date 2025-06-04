@@ -51,13 +51,15 @@ async function fetchAPI(endpoint, body = null) {
         // Now we can actually fetch from the URL
         const response = await fetch(url, options);
         
+        if (response.status === 401) {
+            throw new Error("Unauthorised (401). Reload page.")
+        }
+
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`)
         }
         const json = await response.json();
-        if (response.status === 401) {
-            throw new Error("Unauthorised (401). Reload page.")
-        }
+
         return json;
     } catch (error) {
         console.error(error.message);
@@ -197,7 +199,7 @@ async function loadInitialUserData() {
         assignTempIds(currentUserData.projects);
 
         console.log("loadInitialUserData > User data loaded: " + JSON.stringify(currentUserData))
-        renderDataIntoUI()
+        renderDataIntoUI() 
         return true;
     } catch (error) {
         console.error("loadInitialUserData > Error in loading data: " + error)

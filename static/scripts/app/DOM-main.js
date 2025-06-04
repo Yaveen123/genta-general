@@ -10,7 +10,7 @@
 
 // MARK:createEventCardDOM()
 function createEventCardDOM(projectData, eventData) {
-    console.log(eventData)
+    console.log(`Creating event card for: ${eventData.title}, Event Data: ${JSON.stringify(eventData)}`);
     // MARK:>event-outer-box
     const outerBox = document.createElement('div');
     // let projectId, eventId;
@@ -105,7 +105,7 @@ function createEventCardDOM(projectData, eventData) {
     // MARK: >expandcollapse
     // DOM for expand and collapse button
     const expandableContent = document.createElement('div')
-    if (eventData.collapsed) { expandableContent.style.display = 'none' }
+    
     expandableContent.className = 'expandable-content'
 
     // expandableContent.className = 'expandable-content'
@@ -125,7 +125,7 @@ function createEventCardDOM(projectData, eventData) {
     expandCollapseButton.innerHTML = `
         <div class="expandable-content__expand-collapse-container__text-container" style="cursor: pointer;">
             <img class="expandable-content__expand-collapse-container__text-container__arrow-icon unselectable"  src="/static/images/icons/${expandCollapseButtonType}-arrow.svg"  ">
-            <p class="typography__body--clickable unsellectable">${expandCollapseButtonText}</p>
+            <p class="typography__body--clickable unselectable">${expandCollapseButtonText}</p>
         </div>`;
     expandableContent.appendChild(expandCollapseButton)
 
@@ -133,7 +133,7 @@ function createEventCardDOM(projectData, eventData) {
     const contentContainer = document.createElement('div')
     contentContainer.className = 'expandable-content__content_container';
 
-
+    if (eventData.collapsed) { contentContainer.style.display = 'none' }
 
     // MARK:>todo
     // There is supposed to be a show/hide function for todos but I don't want to implement it yet
@@ -148,11 +148,11 @@ function createEventCardDOM(projectData, eventData) {
     const todoListDiv = document.createElement('div')
     todoListDiv.className = 'todo-list'
 
-    if (eventData.todo) { if (!eventData.todo.length) {
+    if (eventData.todo && eventData.todo.length > 0) { 
         eventData.todo.forEach(todoItem => {
-            todoListDiv.appendChild(createTodoItemDOM(projectId, eventId, todoItem)); // turns out i can just extract everything as a function
-        })
-    } }
+            todoListDiv.appendChild(createTodoItemDOM(projectId, eventId, todoItem));
+        });
+    }
 
 
     todoDiv.appendChild(todoListDiv);
@@ -190,14 +190,14 @@ function createEventCardDOM(projectData, eventData) {
 
     // MARK: >edit mode
     const editbox = document.createElement('div')
-    editbox.classname = 'edit-box'
+    editbox.className = 'edit-box'
     editbox.innerHTML = `
         <div class="edit-box__cancel-box">
             <img src="static/images/icons/cross2.svg" alt="cross button">
             <p class="typography__subtitle--warn">Cancel</p>
         </div>
         <div class="edit-box__edit-info">
-            <input class="typography__heading--editable event-title-input" placeholder="${eventData.title || "Untitled event"}" type="text"></input>
+            <input class="typography__heading--editable event-title-input" placeholder="${eventData.title || "Untitled event"}" type="text" style="width: 100%;"></input>
             <div class="edit-box__edit-info__date-edit-box">
                 <input class="typography__body--editable event-date-input" type="date"></input>
                 <span class="event-date-display typography__body--editable"></span>
@@ -244,20 +244,27 @@ function createTodoItemDOM(projectId, eventId, todoData) {
 
     // if it's checked or not
     const checkboxDiv = document.createElement('div')
-    checkboxDiv.innerHTML = `<img src="/static/images/icons/tick.svg" class="ev__todo-item__icon__tick">`
+    checkboxDiv.innerHTML = `<img src="/static/images/icons/tick.svg" class="ev__todo-item__icon__tick unselectable">`
     if (todoData.checked) {
-        checkboxDiv.className = 'ev__todo-item__icon--completed'
-        content.className = 'typography__body';
+        checkboxDiv.className = 'ev__todo-item__icon--completed todo-checkbox-clickable unselectable'
+        content.className = 'typography__body--strikethrough todo-checkbox-clickable unselectable';
     } else {
-        checkboxDiv.className = 'ev__todo-item__icon--uncompleted'
-        content.classList = 'typography__body--strikethrough';
+        checkboxDiv.className = 'ev__todo-item__icon--uncompleted todo-checkbox-clickable'
+        content.className = 'typography__body todo-checkbox-clickable unselectable';
     }
+
+    checkboxDiv.addEventListener('click', function(eventObject) {
+        window.toggleTodoStatus(checkboxDiv, eventObject)
+    })
+
     content.textContent = todoData.content || ''
 
     const trashIcon = document.createElement('img')
-    trashIcon.src = "/static/images/icons/trash.svg"
+    trashIcon.src = "/static/images/icons/delete.svg"
     trashIcon.className = "ev__todo-item__icon--trash todo-trash-clickable";
     
+    trashIcon.addEventListener('click', function() {itemDiv.remove()})
+
     itemDiv.appendChild(checkboxDiv)
     itemDiv.appendChild(content)
     itemDiv.appendChild(trashIcon)
@@ -288,10 +295,15 @@ function renderDataIntoUI () {
             }
         })
     } else {
-        const emptyText = `
+        emptyText = document.createElement('div')
+        emptyText.innerHTML = `
         <p class="typography__body" style="padding: 20px 20px;"> Add an event to this project using the '+ Click to add event' button </p>
         `
         mainBody.appendChild(emptyText);
     }
-    
+
+    window.startTodoEventListeners();
+    window.startEventEventListeners();
+    window.startEditEventListeners();
+    window.startTextAreaEventListeners();
 }

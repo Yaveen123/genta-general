@@ -7,7 +7,7 @@ function resizeTextarea(element) {
 }
 
 // When the document is loaded
-document.addEventListener("DOMContentLoaded", function() {
+function startTextAreaEventListeners () {
 
     // For each textbox
     document.querySelectorAll("textarea").forEach(function(textarea) {
@@ -49,4 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
-});
+};
+
+window.startTextAreaEventListeners = startTextAreaEventListeners;
+window.resizeTextarea = resizeTextarea;
