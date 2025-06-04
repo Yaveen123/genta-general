@@ -8,13 +8,15 @@
     <!-- Scripts -->
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script src="{{url_for('static', filename='scripts/app/g-sign-in.js')}}"></script>
+    <script src="{{url_for('static', filename='scripts/app/DOM-main.js')}}" defer></script>
+    <script src="{{url_for('static', filename='scripts/app/data-manager.js')}}" defer></script>
+
     <script src="{{url_for('static', filename='scripts/app/titlebar.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/app/confetti.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/app/textarea.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/app/todo.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/app/events.js')}}"></script>
     <script src="{{url_for('static', filename='scripts/app/event-edit.js')}}"></script>
-    <script src="{{url_for('static', filename='scripts/app/data-manager.js')}}"></script>
 
     <!-- CDN -->
     <!-- Canvas Confetti --> <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.1"></script>
@@ -86,84 +88,10 @@
 
 
         </div>
-
-        <div class="event-outer-box">
-            <div class="event">
-                <div class="event__header">
-                    <div class="event__title-date-container">
-                        <p class="event__title-date-container__text typography__heading unselectable">
-                            Project Title
-                        </p>
-                        <div class="event__title-date-container__date-container">
-                            <div class="date-chip">
-                                <div class="date-chip__date-container ">
-                                    <img src="{{url_for('static',filename='images/icons/clock.svg')}}" class="unselectable" alt="clock">
-                                    <p class="typography__code unselectable">
-                                        12-20-2025
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <img src="{{url_for('static', filename='images/icons/settings.svg')}}" class="event_title__settings-icon unselectable" alt="Settings icon">
-                </div>
-                <div class="expandable-content">
-                    <div class="expandable-content__expand-collapse-container">
-                        <div class="expandable-content__expand-collapse-container__text-container" style="cursor: pointer;"> 
-                            <img src="{{url_for('static', filename='images/icons/up-arrow.svg')}}" class="expandable-content__expand-collapse-container__text-container__arrow-icon unselectable" alt="">
-                            <p class="typography__body--clickable unselectable" >
-                                Close
-                            </p>
-                        </div>
-                    </div>
-                    <div class="expandable-content__content_container">
-                        <div class="ev__todo-container">
-                            <p class="typography__subtitle--bold unselectable" style="position: sticky; top: 0; width: 100%; background: #FDFDFC;">
-                                Todo
-                            </p>
-                            <div class="todo-list">
-                                <div class="ev__todo-item todo-input">
-                                    <input class="temp-type-newtypoico todo-input-item-main" type="text" placeholder="Type new item..." autocomplete="off"></input>
-                                    <img style="display: none;" src="{{url_for('static', filename='images/icons/next.svg')}}" alt="Add todo item">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ev__notes-content">
-                            <p class="typography__subtitle--bold unselectable">
-                                Notes
-                            </p>
-                            <!-- w3schools (n.d.) HTML <textarea> tag https://www.w3schools.com/tags/tag_textarea.asp -->
-                            <textarea class="ev__notes-content__content-container typography__body--light" placeholder="Type away!"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="edit-box">
-                    <div class="edit-box__cancel-box">
-                        <img src="{{url_for('static', filename='images/icons/cross2.svg')}}"  alt="cross button">
-                        <p class="typography__subtitle--warn">Cancel</p>
-                    </div>
-                    <div class="edit-box__edit-info">
-                        <input class="typography__heading--editable event-title-input" placeholder="Project title" type="text"></input>
-                        <div class="edit-box__edit-info__date-edit-box">
-                            <input class="typography__body--editable event-date-input" type="date"></input>
-                            <span class="event-date-display typography__body--editable"></span>
-                        </div>
-                    </div>
-                    <div style="display: flex; flex-direction: row; gap: 10px;">
-                        <button class="edit-box__box">
-                            <p class="typography__button">Save event</p>
-                        </button>
-                        <button class="edit-box__box" style="background-color: rgb(0, 0, 0);">
-                            <p class="typography__button" style="color: rgb(255, 68, 68);">Delete event</p>
-                        </button>
-                    </div>
-
-            </div>
-        </div>
-
         
-        <div class="event-outer-box" style="background-color: #AFF20021;">
+        
+
+        <div class="event-outer-box add-event-card" style="background-color: #AFF20021; margin: 0">
 
             <!-- dummy classes to keep event listeners happy -->
             <div class="expandable-content__expand-collapse-container " style="display: none;"></div>
@@ -195,170 +123,7 @@
             </div>
         </div>
 
-        <div class="event-outer-box" style="background-color: #ffffff00;">
-            <!-- dummy classes to keep event listeners happy -->
-            <div class="expandable-content__expand-collapse-container event_title__settings-icon edit-box__cancel-box edit-box" style="display: none;"></div>
-            <input type="date" style="display: none;" class="event-date-input">
-
-            <div class="event" style="background-color: #adf20000; padding: 13.5px 20px;">
-                <p class="typography__heading--light" >Today</p>                
-            </div>
-        </div>
-
-        <div class="event-outer-box">
-            <div class="event">
-                <div class="event__header">
-                    <div class="event__title-date-container">
-                        <p class="event__title-date-container__text typography__heading unselectable">
-                            Milestone 1
-                        </p>
-                        <div class="event__title-date-container__date-container">
-                            <div class="date-chip">
-                                <div class="date-chip__date-container ">
-                                    <img src="{{url_for('static',filename='images/icons/clock.svg')}}" class="unselectable" alt="clock">
-                                    <p class="typography__code unselectable">
-                                        12-20-2025
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <img src="{{url_for('static', filename='images/icons/settings.svg')}}" class="event_title__settings-icon unselectable" alt="Settings icon">
-                </div>
-                <div class="expandable-content">
-                    <div class="expandable-content__expand-collapse-container">
-                        <div class="expandable-content__expand-collapse-container__text-container" style="cursor: pointer;"> 
-                            <img src="{{url_for('static', filename='images/icons/up-arrow.svg')}}" class="expandable-content__expand-collapse-container__text-container__arrow-icon unselectable" alt="">
-                            <p class="typography__body--clickable unselectable" >
-                                Close
-                            </p>
-                        </div>
-                    </div>
-                    <div class="expandable-content__content_container">
-                        <div class="ev__todo-container">
-                            <p class="typography__subtitle--bold unselectable" style="position: sticky; top: 0; width: 100%; background: #FDFDFC;">
-                                Todo
-                            </p>
-                            <div class="todo-list">
-                                <div class="ev__todo-item todo-input">
-                                    <input class="temp-type-newtypoico todo-input-item-main" type="text" placeholder="Type new item..." autocomplete="off"></input>
-                                    <img style="display: none;" src="{{url_for('static', filename='images/icons/next.svg')}}" alt="Add todo item">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ev__notes-content">
-                            <p class="typography__subtitle--bold unselectable">
-                                Notes
-                            </p>
-                            <!-- w3schools (n.d.) HTML <textarea> tag https://www.w3schools.com/tags/tag_textarea.asp -->
-                            <textarea class="ev__notes-content__content-container typography__body--light" placeholder="Type away!"></textarea>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-            <div class="edit-box">
-                    <div class="edit-box__cancel-box">
-                        <img src="{{url_for('static', filename='images/icons/cross2.svg')}}"  alt="cross button">
-                        <p class="typography__subtitle--warn">Cancel</p>
-                    </div>
-                    <div class="edit-box__edit-info">
-                        <input class="typography__heading--editable event-title-input" placeholder="Event title" type="text"></input>
-                        <div class="edit-box__edit-info__date-edit-box">
-                            <input class="typography__body--editable event-date-input" type="date"></input>
-                            <span class="event-date-display typography__body--editable"></span>
-                        </div>
-                    </div>
-                    <div style="display: flex; flex-direction: row; gap: 10px;">
-                        <button class="edit-box__box">
-                            <p class="typography__button">Save event</p>
-                        </button>
-                        <button class="edit-box__box" style="background-color: rgb(0, 0, 0);">
-                            <p class="typography__button" style="color: rgb(255, 68, 68);">Delete event</p>
-                        </button>
-                    </div>
-
-            </div>
-        </div>
         
-        <div class="event-outer-box">
-            <div class="event">
-                <div class="event__header">
-                    <div class="event__title-date-container">
-                        <p class="event__title-date-container__text typography__heading unselectable">
-                            Milestone 1
-                        </p>
-                        <div class="event__title-date-container__date-container">
-                            <div class="date-chip">
-                                <div class="date-chip__date-container ">
-                                    <img src="{{url_for('static',filename='images/icons/clock.svg')}}" class="unselectable" alt="clock">
-                                    <p class="typography__code unselectable">
-                                        12-20-2025
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <img src="{{url_for('static', filename='images/icons/settings.svg')}}" class="event_title__settings-icon unselectable" alt="Settings icon">
-                </div>
-                <div class="expandable-content">
-                    <div class="expandable-content__expand-collapse-container">
-                        <div class="expandable-content__expand-collapse-container__text-container" style="cursor: pointer;"> 
-                            <img src="{{url_for('static', filename='images/icons/up-arrow.svg')}}" class="expandable-content__expand-collapse-container__text-container__arrow-icon unselectable" alt="">
-                            <p class="typography__body--clickable unselectable" >
-                                Close
-                            </p>
-                        </div>
-                    </div>
-                    <div class="expandable-content__content_container">
-                        <div class="ev__todo-container">
-                            <p class="typography__subtitle--bold unselectable" style="position: sticky; top: 0; width: 100%; background: #FDFDFC;">
-                                Todo
-                            </p>
-                            <div class="todo-list">
-                                <div class="ev__todo-item todo-input">
-                                    <input class="temp-type-newtypoico todo-input-item-main" type="text" placeholder="Type new item..." autocomplete="off"></input>
-                                    <img style="display: none;" src="{{url_for('static', filename='images/icons/next.svg')}}" alt="Add todo item">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ev__notes-content">
-                            <p class="typography__subtitle--bold unselectable">
-                                Notes
-                            </p>
-                            <!-- w3schools (n.d.) HTML <textarea> tag https://www.w3schools.com/tags/tag_textarea.asp -->
-                            <textarea class="ev__notes-content__content-container typography__body--light" placeholder="Type away!"></textarea>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-            <div class="edit-box">
-                    <div class="edit-box__cancel-box">
-                        <img src="{{url_for('static', filename='images/icons/cross2.svg')}}"  alt="cross button">
-                        <p class="typography__subtitle--warn">Cancel</p>
-                    </div>
-                    <div class="edit-box__edit-info">
-                        <input class="typography__heading--editable event-title-input" placeholder="Event title" type="text"></input>
-                        <div class="edit-box__edit-info__date-edit-box">
-                            <input class="typography__body--editable event-date-input" type="date"></input>
-                            <span class="event-date-display typography__body--editable"></span>
-                        </div>
-                    </div>
-                    <div style="display: flex; flex-direction: row; gap: 10px;">
-                        <button class="edit-box__box">
-                            <p class="typography__button">Save event</p>
-                        </button>
-                        <button class="edit-box__box" style="background-color: rgb(0, 0, 0);">
-                            <p class="typography__button" style="color: rgb(255, 68, 68);">Delete event</p>
-                        </button>
-                    </div>
-
-            </div>
-        </div>
-        
-        
-    </div>
-    
+    </div>    
 </body>
 </html>

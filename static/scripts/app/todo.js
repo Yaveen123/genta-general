@@ -15,6 +15,8 @@ function addTodo(text, todoList, todoInput) {
         return;
     }
 
+    console.log(todoList)
+
     const item = document.createElement('div');
     item.className = 'ev__todo-item';
     item.innerHTML = `
@@ -34,15 +36,20 @@ function addTodo(text, todoList, todoInput) {
         toggleTodoStatus(icon, eventObject);
     });
 
+
+
     const trashIcon = item.querySelector('.ev__todo-item__icon--trash');
-    item.addEventListener('mouseenter', function() {
-        trashIcon.style.opacity = 100;
-        trashIcon.style.pointerEvents = ''; 
-    });
-    item.addEventListener('mouseleave', function() {
-        trashIcon.style.opacity = 0;
-        trashIcon.style.pointerEvents = 'none';
-    });
+
+    // item.addEventListener('mouseenter', function() {
+    //     trashIcon.style.opacity = 100;
+    //     trashIcon.style.pointerEvents = ''; 
+    // });
+    // item.addEventListener('mouseleave', function() {
+    //     trashIcon.style.opacity = 0;
+    //     trashIcon.style.pointerEvents = 'none';
+    // });
+
+    // JC moved tis to the CSS which yk makes sense maybe he's less stresso than me
     trashIcon.addEventListener('click', function() {
         item.remove();
     });

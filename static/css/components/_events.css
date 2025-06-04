@@ -491,7 +491,10 @@ align-self: stretch;
     background-color: #FFF;
     box-shadow: 10px 10px 10px #FFF;
     transition: 0.1s all;
+    pointer-events: none;
 }
 
-
-
+.ev__todo-item:hover .ev__todo-item__icon--trash {
+    pointer-events: all;
+    opacity: 100%; 
+}

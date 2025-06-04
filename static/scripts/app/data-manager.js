@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         const verifyLoginResponseResult = await fetchAPI('/verify-login')
-        if (!verifyLoginResponseResult) { caseResult = false } else { caseResult = true }
+        caseResult = Boolean(verifyLoginResponseResult)
     } catch (error) {
         console.log(`TEST CASE 1 FAILED: ${error}`)
         return
@@ -101,11 +101,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // TEST CASE 2
     // Able to generate a valid UUID
     try {
-        if (generateID()) {
-            caseResult = true;
-        } else {
-            caseResult = false;
-        }
+        caseResult = Boolean(generateID());
     } catch (error) {
         console.log(`TEST CASE 2 FAILED: ${error}`)
         return
@@ -165,6 +161,7 @@ function assignTempIds(items) {
     }
 }
 
+// MARK: loadInitialUserData()
 // This is the first load of data 
 async function loadInitialUserData() {
     if (!getAuthToken()) {
@@ -188,16 +185,19 @@ async function loadInitialUserData() {
         currentUserData.user_version_tag = data.user_version_tag;
         localStorage.setItem('gentaUserVersionTag', data.user_version_tag);
 
-        if (data.projects) { // if there are projects we don't want a false we want a empty list so iterators can handle this well
-            currentUserData.projects = data.projects;
-        } else {
-            currentUserData.projects = [];
-        }
+        // if (data.projects) { // if there are projects we don't want a false we want a empty list so iterators can handle this well
+        //     currentUserData.projects = data.projects;
+        // } else {
+        //     currentUserData.projects = [];
+        // }
+
+        currentUserData.projects = data.projects || [];
 
         // assign the temporary ids
         assignTempIds(currentUserData.projects);
 
         console.log("loadInitialUserData > User data loaded: " + JSON.stringify(currentUserData))
+        renderDataIntoUI()
         return true;
     } catch (error) {
         console.error("loadInitialUserData > Error in loading data: " + error)
