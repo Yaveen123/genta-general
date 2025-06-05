@@ -79,6 +79,9 @@ function setActiveProject(projectId) {
         currentProjectId = projectId
     }
 
+    activeProjectData = null;
+    
+
     
     // loop over all projects and match either the .id or .__tempId to the currentPorjectId
     if (currentProjectId) {
@@ -163,12 +166,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         return
     }
 
+
     if (!await loadInitialUserData()) {
         console.log("TEST CASE 3 FAILED -> Unable to get user data")
         return
     } else {
         console.log("TEST CASE 3 PASSED -> able to get user data")
     }
+
+    window.startTitlebar();
 });
 
 // MARK: generateID()
@@ -286,3 +292,29 @@ async function loadInitialUserData() {
     }
 }
 
+// MARK:handleAddProject()
+// add a new proj, need to fix for dev
+function handleAddProject () {
+    const projectTitle = prompt("Input proj title:") //for dev only
+    if (projectTitle) {
+        const dueDate = prompt("Input date: ", Date.now()) // again dev only
+        if (dueDate) {
+            const newProject = {
+                __tempId: generateID(),
+                projectTitle: projectTitle,
+                dueDate: dueDate,
+                events: [],
+                projectCardCollapsed: false 
+            };
+            currentUserData.projects.push(newProject);
+            setActiveProject(newProject.__tempId); 
+            localStorage.setItem('gentaLastActiveProjectId', newProject.__tempId);
+            console.log(`project added: ${newProject}`)
+        } else {
+            return
+        }
+    } else {
+        return;
+    }
+}
+window.handleAddProject = handleAddProject;

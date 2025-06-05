@@ -35,14 +35,15 @@ function createEventCardDOM(projectData, eventData) {
     outerBox.className = 'event-outer-box';
     outerBox.dataset.projectId = projectId
     outerBox.dataset.eventId = eventId;
+    outerBox.dataset.projectCard = eventData.projectCard || false; //set proj card js so we know what is what
+
     
+
     
     
     // DOM for event
     const eventDiv = document.createElement('div');
     eventDiv.className = 'event'
-    if (eventData.isInEditMode) {eventDiv.classList.add('event--in-edit-mode')} 
-
     
     
     // MARK:>header
@@ -191,27 +192,40 @@ function createEventCardDOM(projectData, eventData) {
     // MARK: >edit mode
     const editbox = document.createElement('div')
     editbox.className = 'edit-box'
+
+    let titlePlaceholder, saveButtonText, deleteButtonText;
+    if (eventData.projectCard) {
+        titlePlaceholder = "Untitled project"
+        saveButtonText = "Save project"
+        deleteButtonText = "Delete project"
+    } else {
+        titlePlaceholder = "Untitled event"
+        saveButtonText = "Save event"
+        deleteButtonText = "Delete event"
+    }
+
     editbox.innerHTML = `
         <div class="edit-box__cancel-box">
             <img src="static/images/icons/cross2.svg" alt="cross button">
             <p class="typography__subtitle--warn">Cancel</p>
         </div>
         <div class="edit-box__edit-info">
-            <input class="typography__heading--editable event-title-input" placeholder="${eventData.title || "Untitled event"}" type="text" style="width: 100%;"></input>
+            <input class="typography__heading--editable event-title-input" placeholder="${eventData.title || titlePlaceholder}" type="text" style="width: 100%;"></input>
             <div class="edit-box__edit-info__date-edit-box">
-                <input class="typography__body--editable event-date-input" type="date"></input>
+                <input class="typography__body--editable event-date-input" type="date" value="${eventData.dueDate || ''}">
                 <span class="event-date-display typography__body--editable"></span>
             </div>
         </div>
         <div style="display: flex; flex-direction: row; gap: 10px;">
             <button class="edit-box__box">
-                <p class="typography__button">Save event</p>
+                <p class="typography__button">${saveButtonText}</p>
             </button>
             <button class="edit-box__box" style="background-color: rgb(0, 0, 0);">
-                <p class="typography__button" style="color: rgb(255, 68, 68);">Delete event</p>
+                <p class="typography__button" style="color: rgb(255, 68, 68);">${deleteButtonText}</p>
             </button>
         </div>
 `
+
     outerBox.appendChild(eventDiv);
     outerBox.appendChild(editbox);
 
@@ -275,41 +289,108 @@ function createTodoItemDOM(projectId, eventId, todoData) {
 
 //MARK:renderDataIntoUI()
 
+
+//                     <p class="header__link__text typography__subtitle--link">Software Engineering Major</p>
+
 function renderDataIntoUI () {
     console.log("rendering data")
     console.log(currentUserData)
 
     const mainBody = document.querySelector('.main-body')
+    const headerLinkContainer = document.querySelector(".header__link-container")
 
     // because the +add event element is always below the Project event and above every other event, I can get that and slot in the project (event) card above and everything else below
 
-    const addEvent = mainBody.querySelector('.add-event-card')
+    headerLinkContainer.querySelectorAll('.header__link--project-link').forEach(link => link.remove());
+    
 
-    if (currentUserData.projects && currentUserData.projects.length > 0) {
-        
-        const addEventButton = mainBody.querySelector('.add-event-card');
 
-        
-        currentUserData.projects.forEach( (project) => {
+    if (headerLinkContainer && currentUserData.projects && currentUserData.projects.length > 0) {
+        const newProjectButton = headerLinkContainer.querySelector('.header__new-proj-button__main')
+        const addEventPlaceholder = mainBody.querySelector('.add-event-card');
+        // for (i=0, i=length) {}
 
-            
-            if (project.events && project.events.length > 0) {
-                project.events.forEach((event) => {
-                    const eventCardElement = createEventCardDOM(project, event);
-                    mainBody.insertBefore(eventCardElement, addEvent)
-                })
+        currentUserData.projects.forEach (project => {
+            const projectId = project.id || project.__tempId;
+            const linkDiv = document.createElement('div')
+
+            // added a new class to easily distinguish between projects and signout/addproj w/o using ...else {}
+            linkDiv.className = 'header__link header__link--project-link' 
+
+            if (projectId == currentProjectId) { linkDiv.style.backgroundColor = '#AFF20020'}
+
+            linkDiv.innerHTML = `<p class="header__link__text typography__subtitle--link">${project.projectTitle}</p>`
+
+            linkDiv.addEventListener('click', () => {
+                localStorage.setItem('gentaLastActiveProjectId', projectId)
+                setActiveProject(projectId);
+                window.location.reload()
+            })
+
+            try {
+                headerLinkContainer.insertBefore(linkDiv, newProjectButton);
+            } catch (e) {
+                console.error("headerlinkcontainer", e)
             }
+            
+            
+
         })
+
+        if (activeProjectData) {
+            const projectAsEventData = {
+                id: `project-${activeProjectData.id || activeProjectData.__tempId}`, 
+                __tempId: `project-${activeProjectData.__tempId}`,
+                title: activeProjectData.projectTitle,
+                dueDate: activeProjectData.dueDate,
+                projectCard: true,
+                collapsed: activeProjectData.projectCardCollapsed || false, // falsy (cuz undefined) into false
+                todo: [],
+                notes: ""
+            };
+
+            // eventFIrst = activeProjectData.events[0];
+            // const settingsIcon = projectCardElement.querySelector('.event-settings-clickable') FIX LATER
+            
+            // project card on the top takes the first event (0) and displays that
+            if (activeProjectData.events && activeProjectData.events.length > 0) {
+                projectAsEventData.todo = activeProjectData.events[0].todo || []; 
+                projectAsEventData.notes = activeProjectData.events[0].notes || "";
+            }
+
+            const projectCardElement = createEventCardDOM(activeProjectData, projectAsEventData);
+
+            try {
+                mainBody.insertBefore(projectCardElement, addEventPlaceholder)
+            } catch (e) {
+                console.error("projcardelement", e)
+            }
+            
+            if (activeProjectData.events && activeProjectData.events.length > 0) {
+                let insertAfterElement = addEventPlaceholder // inserts after this element first, then before every event after 
+                // Needs to change for date formatting
+
+                // Start iterating from the second event (index 1) nbecause proj card is itself
+                for (let i = 1; i < activeProjectData.events.length; i++) {
+                    const event = activeProjectData.events[i];
+                    const eventCardElement = createEventCardDOM(activeProjectData, event);
+                    // nothing called "insert after" (why???????????) so i found this
+                    // "Native dev" (2018) How to insert an element after another element in JavaScript without using another library https://stackoverflow.com/questions/4793604/how-to-insert-an-element-after-another-element-in-javascript-without-using-a-lib?rq=4 
+                    insertAfterElement.insertAdjacentElement('afterend', eventCardElement);
+                    insertAfterElement = eventCardElement;                    
+                }
+            }
+        }
+        window.startTodoEventListeners();
+        window.startEventEventListeners();
+        window.startEditEventListeners();
+        window.startTextAreaEventListeners();
     } else {
+        // asdfasdf;uahwefkjawekfkjlajwfhljkhaweflk
         emptyText = document.createElement('div')
         emptyText.innerHTML = `
         <p class="typography__body" style="padding: 20px 20px;"> Add an event to this project using the '+ Click to add event' button </p>
         `
         mainBody.appendChild(emptyText);
     }
-
-    window.startTodoEventListeners();
-    window.startEventEventListeners();
-    window.startEditEventListeners();
-    window.startTextAreaEventListeners();
 }

@@ -68,3 +68,15 @@ document.addEventListener('click', function(event) {
         toggleTitlebarState();
     }
 });
+
+
+function startTitlebar () {
+    const newProjectButton = document.querySelector('.header__new-project-button')
+
+    newProjectButton.addEventListener('click', () => {
+        window.handleAddProject();
+        console.log("new proj butt(on) slapped");
+    })
+}
+
+window.startTitlebar = startTitlebar
