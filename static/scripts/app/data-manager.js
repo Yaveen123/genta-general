@@ -5,6 +5,9 @@ let currentUserData = {
     projects: []
 }
 let googleIdToken = null;
+let currentProjectId = null;
+let activeProjectData = null;
+
 const API_URL = "https://genta-api.online/"
 
 // Set the auth token, called from g-sign-in.js 
@@ -51,7 +54,7 @@ async function fetchAPI(endpoint, body = null) {
         // Now we can actually fetch from the URL
         const response = await fetch(url, options);
         
-        if (response.status === 401) {
+        if (response.status == 401) {
             throw new Error("Unauthorised (401). Reload page.")
         }
 
@@ -66,6 +69,50 @@ async function fetchAPI(endpoint, body = null) {
         return false; // Verification failed
     }
 }
+
+//MARK: setActiveProject(projectId)
+function setActiveProject(projectId) {
+    // if a project ID exists and there are actually projects to show, only then we can store the ID 
+    if (!projectId && currentUserData.projects && currentUserData.projects.length > 0) {
+        currentProjectId = currentUserData.projects[0].id || currentUserData.projects[0].__tempId
+    } else {
+        currentProjectId = projectId
+    }
+
+    
+    // loop over all projects and match either the .id or .__tempId to the currentPorjectId
+    if (currentProjectId) {
+        let i = 0
+        let length = currentUserData.projects.length
+
+        // if (project.id || project.__tempId) {
+        //         activeProjectData = project
+        //         break
+        // }
+
+        while (i < length) {
+            let project = currentUserData.projects[i];
+            // currentUserData.forEach((project)=>{})
+
+            if ((project.id || project.__tempId) == currentProjectId) {
+                activeProjectData = project
+                break
+            }
+            i = i + 1;
+        }
+    }
+
+
+
+    console.log(`Active project is: ${activeProjectData.projectTitle || "unknown"}`)
+    renderDataIntoUI();
+}
+window.setActiveProject = setActiveProject; 
+
+
+
+
+
 
 // MARK: Test cases
 document.addEventListener('DOMContentLoaded', async function() {
@@ -152,6 +199,8 @@ function assignTempIds(items) {
             // this works because event's dont have subevents.
             assignTempIds(item.events); 
 
+            // currentUserData.projects.forEach( (events) 
+
             // loop over each event
             for (let j = 0; j < item.events.length; j++) {
                 if (item.events[j].todo) {
@@ -198,8 +247,36 @@ async function loadInitialUserData() {
         // assign the temporary ids
         assignTempIds(currentUserData.projects);
 
-        console.log("loadInitialUserData > User data loaded: " + JSON.stringify(currentUserData))
-        renderDataIntoUI() 
+        if (currentUserData.projects && currentUserData.projects.length > 0) {
+            const lastActiveProjectId = localStorage.getItem('gentaLastActiveProjectId')
+            let projectExists = null;
+
+            if (lastActiveProjectId) {
+                for (let i = 0; i < currentUserData.projects.length; i++) {
+                    let proj = currentUserData.projects[i]
+                    if ((proj.id || proj.__tempId) == lastActiveProjectId) {
+                        projectExists = proj;
+                        break;
+                    }
+
+                    // if ( p.__tempId == lastActiveProjectId) {
+                    //     projectExists = p;
+                    //     break;
+                    // }
+                }
+            }
+
+            if (projectExists) {
+                setActiveProject(lastActiveProjectId);
+            } else {
+                setActiveProject(currentUserData.projects[0].id || currentUserData.projects[0].__tempId); 
+            }
+        } else {
+            setActiveProject(null);
+        }
+
+        // console.log("loadInitialUserData > User data loaded: " + JSON.stringify(currentUserData))
+        // renderDataIntoUI() 
         return true;
     } catch (error) {
         console.error("loadInitialUserData > Error in loading data: " + error)

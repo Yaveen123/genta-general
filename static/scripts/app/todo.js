@@ -1,7 +1,7 @@
 function startTodoEventListeners () {
     document.querySelectorAll('.todo-input-item-main').forEach((todoInputItem) => {
         todoInputItem.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
+            if (event.key == 'Enter') {
                 const todoEventContainer = todoInputItem.closest('.ev__todo-container');
                 if (!todoEventContainer) {
                     console.error("Error: '.ev__todo-container' not found for todo input.");
@@ -70,12 +70,15 @@ function addTodo(text, todoList, todoInput) {
 
 // toggles the todo 
 function toggleTodoStatus(todoItem, eventObject) {
-    if (todoItem.className === "ev__todo-item__icon--completed") {
+    const textElement = todoItem.parentElement.querySelector('.todo-item__text');
+    
+    if (todoItem.className == "ev__todo-item__icon--completed") {
         todoItem.className = "ev__todo-item__icon--uncompleted";
-
+        textElement.className = "typography__body todo-item__text";
     } else {
         generateConfettiEffect(eventObject); // if its uncompleted then we can add the little confetti effect
         todoItem.className = "ev__todo-item__icon--completed";
-        
+        textElement.className = "typography__body--strikethrough todo-item__text";
     }
 }
+window.toggleTodoStatus = toggleTodoStatus 

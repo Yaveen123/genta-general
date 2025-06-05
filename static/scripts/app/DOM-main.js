@@ -247,10 +247,10 @@ function createTodoItemDOM(projectId, eventId, todoData) {
     checkboxDiv.innerHTML = `<img src="/static/images/icons/tick.svg" class="ev__todo-item__icon__tick unselectable">`
     if (todoData.checked) {
         checkboxDiv.className = 'ev__todo-item__icon--completed todo-checkbox-clickable unselectable'
-        content.className = 'typography__body--strikethrough todo-checkbox-clickable unselectable';
+        content.className = 'typography__body--strikethrough todo-item__text unselectable';
     } else {
         checkboxDiv.className = 'ev__todo-item__icon--uncompleted todo-checkbox-clickable'
-        content.className = 'typography__body todo-checkbox-clickable unselectable';
+        content.className = 'typography__body todo-item__text unselectable';
     }
 
     checkboxDiv.addEventListener('click', function(eventObject) {
@@ -286,7 +286,13 @@ function renderDataIntoUI () {
     const addEvent = mainBody.querySelector('.add-event-card')
 
     if (currentUserData.projects && currentUserData.projects.length > 0) {
+        
+        const addEventButton = mainBody.querySelector('.add-event-card');
+
+        
         currentUserData.projects.forEach( (project) => {
+
+            
             if (project.events && project.events.length > 0) {
                 project.events.forEach((event) => {
                     const eventCardElement = createEventCardDOM(project, event);
