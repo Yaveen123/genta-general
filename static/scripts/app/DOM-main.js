@@ -332,9 +332,6 @@ function renderDataIntoUI () {
             } catch (e) {
                 console.error("headerlinkcontainer", e)
             }
-            
-            
-
         })
 
         if (activeProjectData) {

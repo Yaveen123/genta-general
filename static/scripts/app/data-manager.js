@@ -7,6 +7,8 @@ let currentUserData = {
 let googleIdToken = null;
 let currentProjectId = null;
 let activeProjectData = null;
+let inEditMode = null;
+const autosaveInterval = 30000; // autosave interval is 30s
 
 const API_URL = "https://genta-api.online/"
 
@@ -318,3 +320,28 @@ function handleAddProject () {
     }
 }
 window.handleAddProject = handleAddProject;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let dataChanged = false
+// MARK:markDataHasChanged()
+function markDataHasChanged() {
+    dataChanged = true;
+    console.log("Data has been marked as to-change")
+}
+window.markDataHasChanged = markDataHasChanged
+
+
+
+
