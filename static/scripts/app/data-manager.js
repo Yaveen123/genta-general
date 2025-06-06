@@ -323,17 +323,6 @@ window.handleAddProject = handleAddProject;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 let dataChanged = false
 // MARK:markDataHasChanged()
 function markDataHasChanged() {
@@ -341,6 +330,212 @@ function markDataHasChanged() {
     console.log("Data has been marked as to-change")
 }
 window.markDataHasChanged = markDataHasChanged
+
+
+
+
+
+// MARK:updateProjDetails
+// proj details can be updated seperately as it's own element but also has effects on the active proj
+function updateProjDetails (projectId, newData) {
+    let project = findProjectById (projectId);
+    if (project) {
+        // update proj title and duedate
+        project.dueDate = newData.dueDate
+        project.projectTitle = newData.projectTitle
+
+
+        // activeProjectData.projectTitle = newData.projectTitle;
+        // activeProjectData.dueDate = newData.dueDate;
+        markDataHasChanged()
+        console.log(`updateProjDetails > updated to title: ${project.projectTitle}, ${project.dueDate}`)
+    } else {
+        console.error(`updateProjDetails > Project ${projectId} not found!!`);
+    }
+}
+
+
+// MARK: updateEventDetails()
+// for every normal event, edit-box pings this.
+function updateEventDetails (eventId, newData) {
+    let event = findEventById(eventId)
+    if (event) {
+        event.eventTitle = newData.eventTitle
+        event.dueDate = newData.dueDate 
+        event.notes = newData.notes 
+
+        markDataHasChanged()
+        console.log(`updateEventDetails > updated to: title: ${event.eventTitle}, due date: ${event.dueDate}, notes: ${event.notes}`)
+    } else {
+        console.error(`updateEventDetails > event '${eventId}' not found!`)
+    }
+}
+
+
+// MARK:updateTodoDetails
+function updateTodoDetails(projectId, eventId, todoId, newData) {
+    let project=findProjectById(projectId), event=findEventById(project, eventId), todo=findTodoById(event, todoId) // i think this is very smexy
+
+    if (todo) {
+        todo.content = newData.content;
+        todo.checked = newData.checked
+    } else {
+        console.error("updateTodoDetails > todo doesnt exist")
+        return
+    }
+
+    markDataHasChanged()
+    console.log("updateTodoDetails > todo updated")
+}
+
+
+
+
+// MARK: addEventLocalStorage()
+// For +Add new event
+function addEventLocalStorage (eventData, projectId) {
+    let project = findProjectById(project)
+    if (project) {
+        if (!project.events) {
+            project.events = [];
+        }
+
+        if (!eventData.__tempId ) {
+            eventData.__tempId = generateID()
+        }
+
+        project.events.push(eventData) //put into the proj. this might not be safe but its fine
+
+        markDataHasChanged();
+        console.log(`addEventLocalStorage > added to project ${eventData}`)
+    } else {
+        // i can't see when this could happen but its a good failsafe
+        console.error("addEventLocalStorage > What??")
+    }
+}
+
+// MARK:addTodoLocalStorage()
+// adding todo data
+function addTodoLocalStorage(todoData, eventId, projectId) {
+    let project = findProjectById(projectId), event = findEventById(eventId);
+
+    if (event) {
+        if (!event.todo) { event.todo = []; }
+        todoData.__tempId = todoData.__tempId || generateID()
+        event.todo.push(todoData)
+
+        markDataHasChanged()
+    } else {
+        console.error("addTodoLocalStorage > how?")
+    }
+}
+
+
+
+
+
+// MARK:deleteProjectLocalSorage()
+function deleteProjectLocalStorage (projectId) {
+    // why. is. deleting from an array. so. complicated
+    // i had to figure out this one by searchign because i did not realise that there was no .remove thing like in py
+    // How can I remove a specific item from an array in JavaScript? https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array-in-javascript
+    currentUserData.projects = currentUserData.projects.filter(project => projectId != (project.__tempId || project.id) )
+    // JC explained me the semantics: essentailly the .filter takes a func (item)=>{} where in {} is something like {return item only if its not <specific item>} 
+
+    markDataHasChanged();
+    //MARK:!!!!!!!!!!!!!! I NEED TO FORCE AN UPDATE BEFORE RELOAD!
+
+    localStorage.removeItem('gentaLastActiveProjectId');
+}
+
+// MARK: deleteEventLocalStorage()
+function deleteEventLocalStorage(projectId, eventId) {
+    const project = findProjectById(projectId)
+    if (!project) { console.error("deleteEventLocalStorage > what"); return }
+    if (!project.events) { console.error("deleteEventLocalStorage > what2"); return }
+
+    project.events.filter ( event => (eventId != (event.id || event.__tempid)))
+    markDataHasChanged()
+
+    console.log(`deleteEventLocalStorage > event deleted ${eventId} `)
+}
+// MARK:deleteTodoLocalStorage()
+function deleteTodoLocalStorage (projectId, eventId, todoId) {
+    let project=findProjectById(projectId), event=findEventById(project, eventId)
+
+    if (!event) { console.error("deleteEventLocalStorage > what"); return }
+    if (!event.todo) { console.error("deleteEventLocalStorage > what2"); return }
+
+    event.todo = event.todo.filter ( todo => (todo.id | todo.__tempId) != todoId)
+    markDataHasChanged ()
+    
+    console.log ("deleteTodoLocalStorage > todo deleted")
+}
+
+
+
+// MARK:findProjectById()
+function findProjectById(projectId) {
+    // go through each project and find the proj that's open
+    for (let i = 0; i< currentUserData.projects.length; i++) {
+        const project = currentUserData.projects[i];
+        if ((project.id || project.__tempId) == projectId) {
+            return project;
+        }
+    }
+
+    return null;
+}
+
+// MARK:findEventById()
+function findEventById (project, eventId) {
+    if (project && project.events) {
+        // i shouldnt have made this whole project card thing tbh
+        // Salvado, C (2011) how to check if a string "StartsWith" another string https://stackoverflow.com/questions/646628/how-to-check-if-a-string-startswith-another-string
+        if (eventId.startsWith('project-')) {
+            return project.events[0]
+        }
+
+        // let toReturn = null 
+        for (let event of project.events) {
+            if ((event.__tempId || event.id) == eventId) {return event}
+        }
+        return null
+    } else { return null; }
+}
+
+// MARK: findTodoById ()
+function findTodoById (todoId, event) {
+    if (event.todo) {
+        for (let todoItem of event.todo) {
+            if ((todoItem.__tempId || todoItem.id) == todoId) { return todoItem }
+        }
+    }
+    // this js makes it easier for me to fid a specific todo in a event
+    return null
+} 
+
+
+
+
+
+
+// expose everything so i can call it from DOM-main
+window.updateProjDetails = updateProjDetails
+window.updateEventDetails = updateEventDetails
+window.updateTodoDetails = updateTodoDetails
+
+window.addEventLocalStorage = addEventLocalStorage
+window.addTodoLocalStorage = addTodoLocalStorage
+// window.addProjectLocalStorage = addProjectLocalStorage not needed 
+
+window.deleteProjectLocalStorage = deleteProjectLocalStorage
+window.deleteEventLocalStorage = deleteEventLocalStorage 
+window.deleteTodoLocalStorage = deleteTodoLocalStorage
+// window.findProjectById = findProjectById
+// window.findEventById = findEvdentById
+// window.findTodoById = findTod
+
 
 
 
