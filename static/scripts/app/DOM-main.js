@@ -10,7 +10,7 @@
 
 // MARK:createEventCardDOM()
 function createEventCardDOM(projectData, eventData) {
-    console.log(`Creating event card for: ${eventData.title}, Event Data: ${JSON.stringify(eventData)}`);
+    // console.log(`Creating event card for: ${eventData.title}, Event Data: ${JSON.stringify(eventData)}`);
     // MARK:>event-outer-box
     const outerBox = document.createElement('div');
     // let projectId, eventId;
@@ -78,7 +78,7 @@ function createEventCardDOM(projectData, eventData) {
         <div class="date-chip__date-container ">
             <img  class="unselectable" src="/static/images/icons/clock.svg" >
             <p class="typography__code unselectable">
-                ${eventData.dueDate || "No date"}"}
+                ${eventData.dueDate || "No date"}
             </p>
         </div>`
     dateContainer.appendChild(dateChip)
@@ -238,7 +238,7 @@ function createEventCardDOM(projectData, eventData) {
 //MARK:createTodoItemDOM
 // Thhis function creates just todos as they're a repeated element inside the class itself.
 function createTodoItemDOM(projectId, eventId, todoData) {
-    console.log(todoData)
+    // console.log(todoData)
     
 
     const todoId = todoData.id || todoData.__tempId
@@ -293,8 +293,8 @@ function createTodoItemDOM(projectId, eventId, todoData) {
 //                     <p class="header__link__text typography__subtitle--link">Software Engineering Major</p>
 
 function renderDataIntoUI () {
-    console.log("rendering data")
-    console.log(currentUserData)
+    // console.log("rendering data")
+    // console.log(currentUserData)
 
     const mainBody = document.querySelector('.main-body')
     const headerLinkContainer = document.querySelector(".header__link-container")

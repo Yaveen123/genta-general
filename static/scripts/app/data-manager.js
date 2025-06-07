@@ -9,6 +9,7 @@ let currentProjectId = null;
 let activeProjectData = null;
 let inEditMode = null;
 const autosaveInterval = 30000; // autosave interval is 30s
+let readyForAutosave = false;
 
 const API_URL = "https://genta-api.online/"
 
@@ -516,6 +517,129 @@ function findTodoById (todoId, event) {
 } 
 
 
+function getDataFromDOM() {
+    console.log("getting data from DOM")
+
+    const mainBody = document.querySelector('.main-body')
+
+    // user can js delete every project
+    if (!activeProjectData) { return }
+
+    const currentProject = findProjectById(activeProjectData.id || activeProjectData.__tempId);
+    if (!currentProject) {
+        console.error("There was a problem getting the ID");
+        return;
+    }
+
+    // Find an element in DOM based on attribute
+    // Pantra, N (2018) Find an element in DOM based on attribute value https://stackoverflow.com/questions/2694640/find-an-element-in-dom-based-on-an-attribute-value
+    const projectOuterBox = mainBody.querySelector(`.event-outer-box[data-project-id = '${currentProject.id || currentProject.__tempId}'][data-project-card='true']`);
+
+    // from that we can get the project title and project due date
+    let projectTitle;
+    let projectDueDate;
+
+    // get the things from the project card
+    // and then update the initial json stuff
+    try {
+        projectTitle = projectOuterBox.querySelector('.event__title-date-container__text').textContent.trim();
+        projectDueDate = projectOuterBox.querySelector('.typography__code').textContent.trim();
+        // console.log(projectTitle)
+        // console.log(`${projectTitle} -> ${projectDueDate} `)
+    } catch (e) {
+        console.error("Couldn't get content from project card: ", e)
+    }
+    
+    const projectAPIData = {
+        projectTitle: projectTitle,
+        dueDate: projectDueDate,
+        events: []
+    }
+
+
+    // update project ids
+    if (currentProject.id) {
+        projectAPIData.id = currentProject.id;
+    } else { 
+        if (currentProject.__tempId) { 
+            projectAPIData.__tempId = currentProject.__tempId;
+        } 
+    } 
+
+    // now get all event data
+    mainBody.querySelectorAll(".event-outer-box").forEach((eventOuterBox) => {
+
+        if (eventOuterBox.dataset.projectCard === "false" || eventOuterBox.dataset.projectCard === "true") {
+            // getting text out of textarea is a little different
+            // w3schools (n.d.) textarea value property https://www.w3schools.com/jsref/prop_textarea_value.asp
+            let isCollapsed = false;
+            if (eventOuterBox.querySelector('.expandable-content__content_container').style.display === 'none') {
+                isCollapsed = true;
+            }
+
+            const eventDataForAPI = {
+                title: eventOuterBox.querySelector('.event__title-date-container__text').textContent.trim(),
+                dueDate: eventOuterBox.querySelector('.typography__code').textContent.trim(),
+                notes: eventOuterBox.querySelector('.event-notes-textarea').value.trim(), 
+                collapsed: isCollapsed, 
+                todo: [],
+                notesShown: true,
+                todoShown: true
+            } 
+            // console.log(eventDataForAPI);
+            // I dont actually implement notes or todo shown but i built the api to handle that :(
+
+            eventOuterBox.querySelectorAll('.ev__todo-item').forEach(todoItem => {
+                // w3Schools (n.d.) javascript strng includes() https://www.w3schools.com/Jsref/jsref_includes.asp
+                if (todoItem.className.includes("todo-input")) {return;} // skipped todo input
+
+                let checkedState = false;
+                if (todoItem.querySelector(".todo-checkbox-clickable").className.includes("--completed")) {
+                    checkedState = true;
+                }
+
+                const todoToPush = {
+                    content: todoItem.querySelector('.todo-item__text').textContent.trim(),
+                    checked: checkedState,
+                }
+                // console.log(todoToPush)
+
+                eventDataForAPI.todo.push(todoToPush)
+            })
+
+            projectAPIData.events.push(eventDataForAPI)
+        } //else {
+            // console.log("Successfully skipped add event element")
+       //}
+    })
+    console.log(projectAPIData)
+}
+
+
+
+async function updateDataOnServer() {
+    is (!dataChanged && readyForAutosave)
+}
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(() => {
+        getDataFromDOM();
+    }, 4000);
+});
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -535,8 +659,3 @@ window.deleteTodoLocalStorage = deleteTodoLocalStorage
 // window.findProjectById = findProjectById
 // window.findEventById = findEvdentById
 // window.findTodoById = findTod
-
-
-
-
-
