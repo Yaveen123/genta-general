@@ -220,11 +220,17 @@ function createEventCardDOM(projectData, eventData) {
             <button class="edit-box__box">
                 <p class="typography__button">${saveButtonText}</p>
             </button>
-            <button class="edit-box__box" style="background-color: rgb(0, 0, 0);">
+            <button class="edit-box__box del-project" style="background-color: rgb(0, 0, 0);">
                 <p class="typography__button" style="color: rgb(255, 68, 68);">${deleteButtonText}</p>
             </button>
         </div>
 `
+
+    if (eventData.projectCard) {
+        editbox.querySelector(".del-project").addEventListener('click', () => {
+            window.deleteProjectLocalStorage()
+        });
+    }
 
     outerBox.appendChild(eventDiv);
     outerBox.appendChild(editbox);

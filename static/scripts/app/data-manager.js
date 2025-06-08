@@ -296,7 +296,7 @@ async function loadInitialUserData() {
 
 // MARK:handleAddProject()
 // add a new proj, need to fix for dev
-async function handleAddProject () {
+function handleAddProject () {
     const newProject = {
         __tempId: generateID(),
         projectTitle: "Untitled project",
@@ -304,13 +304,10 @@ async function handleAddProject () {
         events: [],
         projectCardCollapsed: false 
     };
-    currentUserData.projects.push(projectData)
     setActiveProject(newProject.__tempId); 
     localStorage.setItem('gentaLastActiveProjectId', newProject.__tempId);
     console.log(`project added: ${newProject}`)
-    
-    console.log(`Forcing update`)
-    await forceUpdateDataServerForProjectAdd()
+    window.addProjectLocalStorage(newProject)
 }
 window.handleAddProject = handleAddProject;
 
@@ -384,7 +381,9 @@ function updateTodoDetails(projectId, eventId, todoId, newData) {
 
 
 async function addProjectLocalStorage (projectData) {
-
+    currentUserData.projects.push(projectData)
+    console.log(`Forcing update`)
+    await forceUpdateDataServerForProjectAdd()
 }
 
 window.addProjectLocalStorage = addProjectLocalStorage
@@ -484,15 +483,18 @@ function addTodoLocalStorage(todoData, eventId, projectId) {
 
 
 // MARK:deleteProjectLocalSorage()
-function deleteProjectLocalStorage (projectId) {
+function deleteProjectLocalStorage () {
+    const projectId = currentProjectId;
     // why. is. deleting from an array. so. complicated
     // i had to figure out this one by searchign because i did not realise that there was no .remove thing like in py
     // How can I remove a specific item from an array in JavaScript? https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array-in-javascript
     currentUserData.projects = currentUserData.projects.filter(project => projectId != (project.__tempId || project.id) )
     // JC explained me the semantics: essentailly the .filter takes a func (item)=>{} where in {} is something like {return item only if its not <specific item>} 
 
-    markDataHasChanged();
-    //MARK:!!!!!!!!!!!!!! I NEED TO FORCE AN UPDATE BEFORE RELOAD!
+    // markDataHasChanged();
+    // //MARK:!!!!!!!!!!!!!! I NEED TO FORCE AN UPDATE BEFORE RELOAD!
+
+    window.forceUpdateDataServerForProjectAdd()
 
     localStorage.removeItem('gentaLastActiveProjectId');
 }
