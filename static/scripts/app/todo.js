@@ -2,6 +2,7 @@ function startTodoEventListeners () {
     document.querySelectorAll('.todo-input-item-main').forEach((todoInputItem) => {
         todoInputItem.addEventListener('keydown', function(event) {
             if (event.key == 'Enter') {
+                
                 const todoEventContainer = todoInputItem.closest('.ev__todo-container');
                 if (!todoEventContainer) {
                     console.error("Error: '.ev__todo-container' not found for todo input.");
@@ -12,6 +13,7 @@ function startTodoEventListeners () {
                     console.error("Error: '.todo-list' not found within '.ev__todo-container'.");
                     return;
                 }
+                window.markDataHasChanged()
                 addTodo(todoInputItem.value, todoList, todoInputItem);
                 todoInputItem.value = '';
             }
@@ -26,7 +28,7 @@ function addTodo(text, todoList, todoInput) {
         return;
     }
 
-    console.log(todoList)
+    // console.log(todoList)
 
     const item = document.createElement('div');
     item.className = 'ev__todo-item';

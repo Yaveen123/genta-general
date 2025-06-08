@@ -269,6 +269,7 @@ function createTodoItemDOM(projectId, eventId, todoData) {
 
     checkboxDiv.addEventListener('click', function(eventObject) {
         window.toggleTodoStatus(checkboxDiv, eventObject)
+        window.markDataHasChanged()
     })
 
     content.textContent = todoData.content || ''
@@ -277,7 +278,7 @@ function createTodoItemDOM(projectId, eventId, todoData) {
     trashIcon.src = "/static/images/icons/delete.svg"
     trashIcon.className = "ev__todo-item__icon--trash todo-trash-clickable";
     
-    trashIcon.addEventListener('click', function() {itemDiv.remove()})
+    trashIcon.addEventListener('click', function() {itemDiv.remove(); window.markDataHasChanged()})
 
     itemDiv.appendChild(checkboxDiv)
     itemDiv.appendChild(content)

@@ -21,6 +21,7 @@ function startTextAreaEventListeners () {
         textarea.addEventListener("input", function() {
             try {
                 resizeTextarea(this);
+                window.markDataHasChanged()
             } catch (error) {
                 console.warn("Textarea resize error:", error);
             }

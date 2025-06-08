@@ -2,7 +2,7 @@
 function startEventEventListeners () {
     Array.from(document.getElementsByClassName("event-outer-box")).forEach(element => {
         element.querySelector(".expandable-content__expand-collapse-container").addEventListener("click", function() {
-
+            window.markDataHasChanged()
             // already  closed?
             if (element.querySelector(".expandable-content__content_container").style.display == 'none') { 
                 element.querySelector(".expandable-content__content_container").style.display = ''; // open wiiide!

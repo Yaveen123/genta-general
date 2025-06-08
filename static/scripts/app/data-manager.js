@@ -109,8 +109,6 @@ function setActiveProject(projectId) {
     }
 
 
-
-    console.log(`Active project is: ${activeProjectData.projectTitle || "unknown"}`)
     renderDataIntoUI();
 }
 window.setActiveProject = setActiveProject; 
@@ -298,28 +296,21 @@ async function loadInitialUserData() {
 
 // MARK:handleAddProject()
 // add a new proj, need to fix for dev
-function handleAddProject () {
-    const projectTitle = prompt("Input proj title:") //for dev only
-    if (projectTitle) {
-        const dueDate = prompt("Input date: ", Date.now()) // again dev only
-        if (dueDate) {
-            const newProject = {
-                __tempId: generateID(),
-                projectTitle: projectTitle,
-                dueDate: dueDate,
-                events: [],
-                projectCardCollapsed: false 
-            };
-            currentUserData.projects.push(newProject);
-            setActiveProject(newProject.__tempId); 
-            localStorage.setItem('gentaLastActiveProjectId', newProject.__tempId);
-            console.log(`project added: ${newProject}`)
-        } else {
-            return
-        }
-    } else {
-        return;
-    }
+async function handleAddProject () {
+    const newProject = {
+        __tempId: generateID(),
+        projectTitle: "Untitled project",
+        dueDate: "2025-05-22",
+        events: [],
+        projectCardCollapsed: false 
+    };
+    currentUserData.projects.push(projectData)
+    setActiveProject(newProject.__tempId); 
+    localStorage.setItem('gentaLastActiveProjectId', newProject.__tempId);
+    console.log(`project added: ${newProject}`)
+    
+    console.log(`Forcing update`)
+    await forceUpdateDataServerForProjectAdd()
 }
 window.handleAddProject = handleAddProject;
 
@@ -329,7 +320,7 @@ let dataChanged = false
 // MARK:markDataHasChanged()
 function markDataHasChanged() {
     dataChanged = true;
-    console.log("Data has been marked as to-change")
+    // console.log("Data has been marked as to-change")
 }
 window.markDataHasChanged = markDataHasChanged
 
@@ -389,6 +380,62 @@ function updateTodoDetails(projectId, eventId, todoId, newData) {
     markDataHasChanged()
     console.log("updateTodoDetails > todo updated")
 }
+
+
+
+async function addProjectLocalStorage (projectData) {
+
+}
+
+window.addProjectLocalStorage = addProjectLocalStorage
+
+
+
+
+
+async function forceUpdateDataServerForProjectAdd () {
+    console.log("forceUpdateDataServerForProjectAdd > adding project")
+    
+    const body = { 
+        user_version_tag: currentUserData.user_version_tag,
+        projects: currentUserData.projects
+    }
+    console.log(body)
+
+    try {
+        const result = await fetchAPI('update-data', body);
+        console.log(`result: ${result}`)
+
+        if (result) {
+            if (result.newVersionTag) {
+                currentUserData.user_version_tag = result.newVersionTag;
+                localStorage.setItem('gentaUserVersionTag', result.newVersionTag);
+                console.log("Autosave server response > project data saved successfully, new version tag:", result.newVersionTag);
+                dataChanged = false;
+
+                window.location.reload()
+            } else if (result.error) {
+                if (result.error.includes("Autosave server response > Client data is outdated")) {
+                    console.error("Autosave server response > Autosave conflict, reload Genta.")
+                } else {
+                    console.error("Autosave server response > An error occured.")
+                }
+            } else {
+                console.error("Autosave server response > An unknown error occured.")
+            }
+        } else {
+            console.error("Autosave server response > No response from server.")
+        }
+    } catch (e) {
+        console.error("Autosave > Client fetch error", e)
+    }
+}
+
+
+
+
+
+
 
 
 
@@ -518,6 +565,7 @@ function findTodoById (todoId, event) {
 } 
 
 
+// MARK: getDataFromDOM()
 function getDataFromDOM() {
     console.log("getting data from DOM")
     try {
@@ -633,7 +681,7 @@ function getDataFromDOM() {
 }
 
 
-
+// MARK:updateDataOnServer()
 async function updateDataOnServer() {
     if (!dataChanged) {
         console.log("autosave > no data changed")
@@ -672,24 +720,45 @@ async function updateDataOnServer() {
 
     try {
         const result = await fetchAPI('update-data', body);
-
         console.log(result)
+
+        if (result) {
+            if (result.newVersionTag) {
+                currentUserData.user_version_tag = result.newVersionTag;
+                localStorage.setItem('gentaUserVersionTag', result.newVersionTag);
+                console.log("Autosave server response > project data saved successfully, new version tag:", result.newVersionTag);
+                dataChanged = false;
+            } else if (result.error) {
+                if (result.error.includes("Autosave server response > Client data is outdated")) {
+                    console.error("Autosave server response > Autosave conflict, reload Genta.")
+                } else {
+                    console.error("Autosave server response > An error occured.")
+                }
+            } else {
+                console.error("Autosave server response > An unknown error occured.")
+            }
+        } else {
+            console.error("Autosave server response > No response from server.")
+        }
     } catch (e) {
-        console.error("Autosave error", e)
+        console.error("Autosave > Client fetch error", e)
     }
 }
 
 
 
 
+function autosaveInitialiser () {
+    updateDataOnServer();
+    
+    // Schedule the next autosave
+    setTimeout(autosaveInitialiser, 10000);
+}
 
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(() => {
-        markDataHasChanged()
-        updateDataOnServer();
-    }, 10000);
+    // Start autosave after initial delay
+    setTimeout(autosaveInitialiser, 10000);
 });
-
 
 
 
