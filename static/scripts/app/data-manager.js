@@ -596,8 +596,14 @@ function getDataFromDOM() {
 
                     let checkedState = false;
                     try {
-                        if (todoItem.querySelector(".todo-checkbox-clickable").className.includes("--completed")) {
+                        if (todoItem.querySelector('.ev__todo-item__icon--completed')) {
                             checkedState = true;
+                            // console.log("yeah")
+                        } 
+
+                        if (todoItem.querySelector('.ev__todo-item__icon--uncompleted')) {
+                            checkedState = false;
+                            // console.log("nah")
                         }
                     } catch (e) {
                         console.error("Couldn't read todo item, ", e )
@@ -683,14 +689,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDataOnServer();
     }, 10000);
 });
-
-
-
-
-
-
-
-
 
 
 
