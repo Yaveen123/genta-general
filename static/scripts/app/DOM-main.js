@@ -310,7 +310,11 @@ function renderDataIntoUI () {
 
     headerLinkContainer.querySelectorAll('.header__link--project-link').forEach(link => link.remove());
     
-
+    mainBody.querySelectorAll(".event-outer-box").forEach(eventItem => {
+        if (eventItem.dataset.projectCard === "false" || eventItem.dataset.projectCard === "true") {
+            eventItem.remove()
+        }
+    })
 
     if (headerLinkContainer && currentUserData.projects && currentUserData.projects.length > 0) {
         const newProjectButton = headerLinkContainer.querySelector('.header__new-proj-button__main')
@@ -331,7 +335,7 @@ function renderDataIntoUI () {
             linkDiv.addEventListener('click', () => {
                 localStorage.setItem('gentaLastActiveProjectId', projectId)
                 setActiveProject(projectId);
-                window.location.reload()
+
             })
 
             try {
