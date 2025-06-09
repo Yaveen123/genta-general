@@ -214,7 +214,7 @@ function createEventCardDOM(projectData, eventData) {
         <div class="edit-box__edit-info">
             <input class="typography__heading--editable event-title-input" placeholder="${eventData.title || titlePlaceholder}" type="text" style="width: 100%;"></input>
             <div class="edit-box__edit-info__date-edit-box">
-                <input class="typography__body--editable event-date-input" type="date" value="${eventData.dueDate || ''}">
+                <input class="typography__body--editable event-date-input" type="date" min="1000-01-01" max="9999-12-31" value="${eventData.dueDate || ''}">
                 <span class="event-date-display typography__body--editable"></span>
             </div>
         </div>
