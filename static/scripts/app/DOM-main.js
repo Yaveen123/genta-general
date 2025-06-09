@@ -406,8 +406,9 @@ function renderDataIntoUI () {
         // asdfasdf;uahwefkjawekfkjlajwfhljkhaweflk
         emptyText = document.createElement('div')
         emptyText.innerHTML = `
-        <p class="typography__body" style="padding: 20px 20px;"> Add an event to this project using the '+ Click to add event' button </p>
+            <p class="typography__body" style="padding: 20px 20px;"> Create a new project by clicking the <img id="hamburger-icon" src="static/images/icons/hamburger.svg" alt="Open menu icon" draggable="false" style="display: inline; vertical-align: middle; width: 20px;"> button</p>
         `
+        document.querySelector(".event").style.display = "none"
         mainBody.appendChild(emptyText);
     }
 }

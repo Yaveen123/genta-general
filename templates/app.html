@@ -48,8 +48,14 @@
         <div id="header" class="header unselectable">
 
             <div id="header__inner-box" class="header__inner-box">
-                <img src="{{url_for('static', filename='images/genta-logo.svg')}}" alt="Genta logo" width="60px" draggable="false">
+                <div style="display: flex; flex-direction: row; gap: 20px;">
+                    <img src="{{url_for('static', filename='images/genta-logo.svg')}}" alt="Genta logo" width="60px" draggable="false">
+                    <p class="typography__body--light header__chip__text" style="opacity: 100%; font-size: large;">Loading...</p>
+                </div>
+                
+
                 <img id="loading-animation" src="{{url_for('static',filename='images/loading.svg')}}" width="50px" alt="Loading animation" draggable="false">
+                
                 <button class="header__icon__hamburger" id="hamburger-button" tabindex="0" style="background: none; border: none;">
                     <img id="hamburger-icon" src="{{url_for('static', filename='images/icons/hamburger.svg')}}" alt="Open menu icon" draggable="false">
                 </button>
@@ -105,7 +111,7 @@
                         <button class="edit-box__box save-new-event-button">
                             <p class="typography__button">Save event</p>
                         </button>
-                        <button class="edit-box__box" style="background-color: rgb(0, 0, 0);">
+                        <button class="edit-box__box" style="background-color: rgb(0, 0, 0); display: none;">
                             <p class="typography__button" style="color: rgb(255, 68, 68);">Delete event</p>
                         </button>
                     </div>
@@ -113,7 +119,8 @@
             </div>
         </div>
 
-        
+
+       
     </div>    
 </body>
 </html>

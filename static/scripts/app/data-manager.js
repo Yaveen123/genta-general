@@ -12,6 +12,7 @@ let inEditMode = null;
 const autosaveInterval = 30000; // autosave interval is 30s
 let readyForAutosave = false;
 
+
 const API_URL = "https://genta-api.online/"
 
 // Set the auth token, called from g-sign-in.js 
@@ -175,6 +176,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         return
     } else {
         console.log("TEST CASE 3 PASSED -> able to get user data")
+        document.querySelector(".header__chip__text").textContent = "Saved"
     }
 
     window.startTitlebar();
@@ -318,6 +320,7 @@ window.handleAddProject = handleAddProject;
 let dataChanged = false
 // MARK:markDataHasChanged()
 function markDataHasChanged() {
+    document.querySelector(".header__chip__text").textContent = "Saving..."
     dataChanged = true;
     // console.log("Data has been marked as to-change")
 }
@@ -703,7 +706,11 @@ async function updateDataOnServer() {
 
     const payloadToSend = getDataFromDOM()
 
-    if (!payloadToSend) {console.log("autosave > generating data failed."); return;}
+    if (!payloadToSend) {
+        console.log("autosave > generating data failed.");
+        document.querySelector(".header__chip__text").textContent = "Couldn't save";
+        return;
+    }
 
     // don't send the not active projects
     const updatedProjects = [];
@@ -736,20 +743,34 @@ async function updateDataOnServer() {
                 localStorage.setItem('gentaUserVersionTag', result.newVersionTag);
                 console.log("Autosave server response > project data saved successfully, new version tag:", result.newVersionTag);
                 dataChanged = false;
+
+                document.querySelector(".header__chip__text").textContent = "Saved"
             } else if (result.error) {
                 if (result.error.includes("Autosave server response > Client data is outdated")) {
                     console.error("Autosave server response > Autosave conflict, reload Genta.")
                 } else {
                     console.error("Autosave server response > An error occured.")
                 }
+                document.querySelector(".header__chip__text").textContent = "Couldn't save";
+                document.querySelector(".header__chip__text").style.color = "red"
+                document.querySelector(".header__chip__text").className = "typography__body header__chip__text blinking-animation"
             } else {
                 console.error("Autosave server response > An unknown error occured.")
+                document.querySelector(".header__chip__text").textContent = "Couldn't save";
+                document.querySelector(".header__chip__text").style.color = "red"
+                document.querySelector(".header__chip__text").className = "typography__body header__chip__text blinking-animation"
             }
         } else {
             console.error("Autosave server response > No response from server.")
+            document.querySelector(".header__chip__text").textContent = "Couldn't save";
+            document.querySelector(".header__chip__text").style.color = "red"
+            document.querySelector(".header__chip__text").className = "typography__body header__chip__text blinking-animation"
         }
     } catch (e) {
         console.error("Autosave > Client fetch error", e)
+        document.querySelector(".header__chip__text").textContent = "Couldn't save";
+        document.querySelector(".header__chip__text").style.color = "red";
+        document.querySelector(".header__chip__text").className = "typography__body header__chip__text blinking-animation"
     }
 }
 
@@ -787,3 +808,16 @@ window.deleteTodoLocalStorage = deleteTodoLocalStorage
 // window.findProjectById = findProjectById
 // window.findEventById = findEvdentById
 // window.findTodoById = findTod
+
+
+
+
+// i need to prevent the page from unloading if changes havent been saved
+// "Codecaster" and Annesley, P (2011) Warn user before leaving web page with unsaved changes, https://stackoverflow.com/questions/7317273/warn-user-before-leaving-web-page-with-unsaved-changes
+window.addEventListener('beforeunload', function(event) {
+    if (dataChanged) {
+        event.preventDefault();
+        event.returnValue = ''; //legacy
+        return '';
+    }
+});
