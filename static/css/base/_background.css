@@ -43,10 +43,10 @@ body {
 /* W3Schools (n.d.)  How TO - Change Text Selection Color https://www.w3schools.com/howto/howto_css_text_selection.asp*/
 ::-moz-selection { /* Code for Firefox */
     color: #000000;
-    background: #AFF200;
+    background: #8ec600;
 }
 
 ::selection {
     color: #000000;
-    background: #AFF200;
+    background: #8ec600;
 }
