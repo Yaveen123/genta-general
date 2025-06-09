@@ -6,6 +6,7 @@ let currentUserData = {
 }
 let googleIdToken = null;
 let currentProjectId = null;
+window.currentProjectId = currentProjectId;
 let activeProjectData = null;
 let inEditMode = null;
 const autosaveInterval = 30000; // autosave interval is 30s
@@ -78,9 +79,9 @@ async function fetchAPI(endpoint, body = null) {
 function setActiveProject(projectId) {
     // if a project ID exists and there are actually projects to show, only then we can store the ID 
     if (!projectId && currentUserData.projects && currentUserData.projects.length > 0) {
-        currentProjectId = currentUserData.projects[0].id || currentUserData.projects[0].__tempId
+        window.currentProjectId = currentUserData.projects[0].id || currentUserData.projects[0].__tempId
     } else {
-        currentProjectId = projectId
+        window.currentProjectId = projectId
     }
 
     activeProjectData = null;
@@ -88,7 +89,7 @@ function setActiveProject(projectId) {
 
     
     // loop over all projects and match either the .id or .__tempId to the currentPorjectId
-    if (currentProjectId) {
+    if (window.currentProjectId) {
         let i = 0
         let length = currentUserData.projects.length
 
@@ -101,7 +102,7 @@ function setActiveProject(projectId) {
             let project = currentUserData.projects[i];
             // currentUserData.forEach((project)=>{})
 
-            if ((project.id || project.__tempId) == currentProjectId) {
+            if ((project.id || project.__tempId) == window.currentProjectId) {
                 activeProjectData = project
                 break
             }
@@ -444,7 +445,7 @@ async function forceUpdateDataServerForProjectAdd (shouldntReload) {
 // MARK: addEventLocalStorage()
 // For +Add new event
 function addEventLocalStorage (eventData, projectId) {
-    let project = findProjectById(project)
+    let project = findProjectById(projectId)
     if (project) {
         if (!project.events) {
             project.events = [];
@@ -486,7 +487,7 @@ function addTodoLocalStorage(todoData, eventId, projectId) {
 
 // MARK:deleteProjectLocalSorage()
 function deleteProjectLocalStorage () {
-    const projectId = currentProjectId;
+    const projectId = window.currentProjectId;
     // why. is. deleting from an array. so. complicated
     // i had to figure out this one by searchign because i did not realise that there was no .remove thing like in py
     // How can I remove a specific item from an array in JavaScript? https://stackoverflow.com/questions/5767325/how-can-i-remove-a-specific-item-from-an-array-in-javascript
@@ -506,9 +507,9 @@ function deleteEventLocalStorage(projectId, eventId) {
     const project = findProjectById(projectId)
     if (!project) { console.error("deleteEventLocalStorage > what"); return }
     if (!project.events) { console.error("deleteEventLocalStorage > what2"); return }
+    markDataHasChanged()
 
     project.events.filter ( event => (eventId != (event.id || event.__tempid)))
-    markDataHasChanged()
 
     console.log(`deleteEventLocalStorage > event deleted ${eventId} `)
 }
@@ -665,7 +666,7 @@ function getDataFromDOM() {
                         content: todoItem.querySelector('.todo-item__text').textContent.trim(),
                         checked: checkedState,
                     }
-                    // console.log(todoToPush)
+                    // consoog(todoToPush)
 
                     eventDataForAPI.todo.push(todoToPush)
                 })

@@ -193,15 +193,17 @@ function createEventCardDOM(projectData, eventData) {
     const editbox = document.createElement('div')
     editbox.className = 'edit-box'
 
-    let titlePlaceholder, saveButtonText, deleteButtonText;
+    let titlePlaceholder, saveButtonText, deleteButtonText, saveButtonClass;
     if (eventData.projectCard) {
         titlePlaceholder = "Untitled project"
         saveButtonText = "Save project"
         deleteButtonText = "Delete project"
+        saveButtonClass = "save-project"
     } else {
         titlePlaceholder = "Untitled event"
         saveButtonText = "Save event"
         deleteButtonText = "Delete event"
+        saveButtonClass = "save-event-button"
     }
 
     editbox.innerHTML = `
@@ -230,8 +232,14 @@ function createEventCardDOM(projectData, eventData) {
         editbox.querySelector(".del-project").addEventListener('click', () => {
             window.deleteProjectLocalStorage()
         });
+    } else {
+        editbox.querySelector(".del-project").addEventListener('click', () => {
+            markDataHasChanged()
+            outerBox.remove()
+        });
     }
 
+    
     outerBox.appendChild(eventDiv);
     outerBox.appendChild(editbox);
 
@@ -328,7 +336,7 @@ function renderDataIntoUI () {
             // added a new class to easily distinguish between projects and signout/addproj w/o using ...else {}
             linkDiv.className = 'header__link header__link--project-link' 
 
-            if (projectId == currentProjectId) { linkDiv.style.backgroundColor = '#AFF20020'}
+            if (projectId == window.currentProjectId) { linkDiv.style.backgroundColor = '#AFF20020'}
 
             linkDiv.innerHTML = `<p class="header__link__text typography__subtitle--link">${project.projectTitle}</p>`
 
@@ -389,6 +397,7 @@ function renderDataIntoUI () {
                 }
             }
         }
+        window.activeProjectData = activeProjectData
         window.startTodoEventListeners();
         window.startEventEventListeners();
         window.startEditEventListeners();
