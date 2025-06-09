@@ -1,5 +1,6 @@
 // This is to make the edit button on the event functional
 function startEditEventListeners() {    
+
     Array.from(document.getElementsByClassName("event-outer-box")).forEach(element => {
 
         // for every element, if the settings button has been clicked, change everythin to edit mode
@@ -56,49 +57,42 @@ function startEditEventListeners() {
         if (element.classList.contains('add-event-card')) {
             const saveNewEventButton = element.querySelector('.save-new-event-button');
             if (saveNewEventButton) {
+                // add an attr that highlights if event listener is active
+                if (!saveNewEventButton.hasAttribute('data-save-listener-attached')) {
+                    saveNewEventButton.setAttribute('data-save-listener-attached', 'true'); // mark as attached
+                    saveNewEventButton.addEventListener('click', function() {
+                        if (!window.activeProjectData) {
+                            return;
+                        }
 
-                //__tempId: window.generateID(), 
-                // title: eventTitle,
-                // dueDate: eventDueDate, 
-                // projectCard: false,
-                // collapsed: true, 
-                // todo: [],
-                // notes: ""
+                        const newEventData = {
+                            __tempId: window.generateID(),
+                            title: element.querySelector(".event-title-input").value.trim() || "Untitled event",
+                            dueDate: element.querySelector(".event-date-input").value.trim() || "2025-01-01",
+                            projectCard: false,
+                            collapsed: true,
+                            todo: [],
+                            notes: ""
+                        };
 
-                saveNewEventButton.addEventListener('click', function() {
-                    if (!window.activeProjectData) {
-                        return;
-                    }
+                        const newCardDOM = window.createEventCardDOM(window.activeProjectData, newEventData);
+                        element.insertAdjacentElement('afterend', newCardDOM);
+                        
+                        element.querySelector(".event-title-input").value = '';
+                        element.querySelector(".event-date-input").value = '';
 
-                    // console.log("w")
+                        element.querySelector(".edit-box").classList.remove('edit-box--in-edit-mode');
+                        element.querySelector(".event").classList.remove('event--in-edit-mode');
 
-                    const newEventData = {
-                        __tempId: window.generateID(),
-                        title: element.querySelector(".event-title-input").value.trim() || "Untitled event",
-                        dueDate: element.querySelector(".event-date-input").value.trim() || "2025-01-01",
-                        projectCard: false,
-                        collapsed: true,
-                        todo: [],
-                        notes: ""
-                    }
+                        window.markDataHasChanged();
+                        console.log(newEventData);
 
-                    element.insertAdjacentElement('afterend', window.createEventCardDOM(window.activeProjectData, newEventData));
-                    element.querySelector(".event-title-input").value = '';
-                    element.querySelector(".event-date-input").value = '';
-
-                    // hide edit mode for the "add-event-card"
-                    element.querySelector(".edit-box").classList.remove('edit-box--in-edit-mode');
-                    element.querySelector(".event").classList.remove('event--in-edit-mode');
-
-                    window.markDataHasChanged()
-                    console.log(newEventData)
-
-
-                    window.startTodoEventListeners();
-                    window.startEventEventListeners();
-                    window.startEditEventListeners();
-                    window.startTextAreaEventListeners();
-                });
+                        window.startTodoEventListeners();
+                        window.startEventEventListeners();
+                        window.startEditEventListeners();
+                        window.startTextAreaEventListeners();
+                    });
+                }
             }
         } else {
             try {
@@ -133,6 +127,8 @@ function startEditEventListeners() {
                     // remove edit mode
                     element.querySelector(".edit-box").classList.remove('edit-box--in-edit-mode');
                     element.querySelector(".event").classList.remove('event--in-edit-mode');
+
+                    window.markDataHasChanged()
                 });
             } catch (e) {
                 // console.log(e);
