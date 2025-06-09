@@ -217,7 +217,7 @@ function createEventCardDOM(projectData, eventData) {
             </div>
         </div>
         <div style="display: flex; flex-direction: row; gap: 10px;">
-            <button class="edit-box__box">
+            <button class="edit-box__box save-project">
                 <p class="typography__button">${saveButtonText}</p>
             </button>
             <button class="edit-box__box del-project" style="background-color: rgb(0, 0, 0);">

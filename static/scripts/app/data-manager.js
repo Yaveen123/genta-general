@@ -55,6 +55,7 @@ async function fetchAPI(endpoint, body = null) {
         }
         
         // Now we can actually fetch from the URL
+        console.log(body)
         const response = await fetch(url, options);
         
         if (response.status == 401) {
@@ -297,12 +298,12 @@ async function loadInitialUserData() {
 // MARK:handleAddProject()
 // add a new proj, need to fix for dev
 function handleAddProject () {
+    forceUpdateDataServerForProjectAdd(true)
     const newProject = {
         __tempId: generateID(),
         projectTitle: "Untitled project",
         dueDate: "2025-05-22",
-        events: [],
-        projectCardCollapsed: false 
+        events: []
     };
     setActiveProject(newProject.__tempId); 
     localStorage.setItem('gentaLastActiveProjectId', newProject.__tempId);
@@ -392,7 +393,7 @@ window.addProjectLocalStorage = addProjectLocalStorage
 
 
 
-async function forceUpdateDataServerForProjectAdd () {
+async function forceUpdateDataServerForProjectAdd (shouldntReload) {
     console.log("forceUpdateDataServerForProjectAdd > adding project")
     
     const body = { 
@@ -412,7 +413,8 @@ async function forceUpdateDataServerForProjectAdd () {
                 console.log("Autosave server response > project data saved successfully, new version tag:", result.newVersionTag);
                 dataChanged = false;
 
-                window.location.reload()
+                if (!shouldntReload) {window.location.reload()}
+                
             } else if (result.error) {
                 if (result.error.includes("Autosave server response > Client data is outdated")) {
                     console.error("Autosave server response > Autosave conflict, reload Genta.")
@@ -705,10 +707,13 @@ async function updateDataOnServer() {
     // don't send the not active projects
     const updatedProjects = [];
     currentUserData.projects.forEach(project => {
+        let projectToSend = { ...project }; //create copy
+        delete projectToSend.__tempId; // Remove __tempId
+
         if ((project.id || project.__tempId) === (activeProjectData.id || activeProjectData.__tempId)) {
             updatedProjects.push(payloadToSend);
         } else {
-            updatedProjects.push(project);
+            updatedProjects.push(projectToSend);
         }
     });
     
@@ -754,12 +759,12 @@ function autosaveInitialiser () {
     updateDataOnServer();
     
     // Schedule the next autosave
-    setTimeout(autosaveInitialiser, 10000);
+    setTimeout(autosaveInitialiser, 5000);
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     // Start autosave after initial delay
-    setTimeout(autosaveInitialiser, 10000);
+    setTimeout(autosaveInitialiser, 5000);
 });
 
 

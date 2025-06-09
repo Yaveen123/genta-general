@@ -1,7 +1,5 @@
 // This is to make the edit button on the event functional
-function startEditEventListeners() {
-
-    
+function startEditEventListeners() {    
     Array.from(document.getElementsByClassName("event-outer-box")).forEach(element => {
 
         // for every element, if the settings button has been clicked, change everythin to edit mode
@@ -12,9 +10,26 @@ function startEditEventListeners() {
                 box.querySelector(".event").classList.remove('event--in-edit-mode');
                 box.querySelector(".edit-box").classList.remove('edit-box--in-edit-mode');
             });
+            
             // add edit mode to the current one
             element.querySelector(".event").classList.add('event--in-edit-mode');
             element.querySelector(".edit-box").classList.add('edit-box--in-edit-mode');
+
+            // put the inputs from current display into text input
+            element.querySelector(".event-title-input").value = element.querySelector('.event__title-date-container__text').textContent.trim()
+
+            // time for the date
+            const dateInput = element.querySelector(".event-date-input")
+            if (element.querySelector('.date-chip .typography__code').textContent.trim() !== "No date") {
+                try {
+                    dateInput.value = element.querySelector('.date-chip .typography__code').textContent.trim()
+                } catch (e) {
+                    console.error(e);
+                    dateInput.value = '';
+                }
+            } else {
+                dateInput.value = ''
+            }
         });
 
 
@@ -23,6 +38,52 @@ function startEditEventListeners() {
             element.querySelector(".edit-box").classList.remove('edit-box--in-edit-mode');
             element.querySelector(".event").classList.remove('event--in-edit-mode');
         });
+
+
+        // the save button
+        try {
+            let saveButton = element.querySelector('.save-project')
+            saveButton.addEventListener("click", function () {
+                // console.log("clicked!")
+                
+
+                const titleInput = element.querySelector(".event-title-input");
+                const dateInput = element.querySelector(".event-date-input");
+                const projectId = element.dataset.projectId;
+
+                // console.log(element)
+                let newTitle;
+                // if it is a proj card 
+                if (element.dataset.projectCard) {
+                    newTitle = titleInput.value.trim() || titleInput.placeholder || "Untitled project"
+                    element.querySelector('.event__title-date-container__text').textContent = newTitle;
+                    element.querySelector('.date-chip .typography__code').textContent = dateInput.value || "No date";
+                    window.updateProjDetails(projectId, { 
+                        projectTitle: newTitle, 
+                        dueDate: dateInput.value 
+                    })
+                // if not
+                } else {
+                    newTitle = titleInput.value.trim() || titleInput.placeholder || "Untitled event"
+                    element.querySelector('.event__title-date-container__text').textContent = newTitle;
+                    element.querySelector('.date-chip .typography__code').textContent = dateInput.value || "No date";
+                }
+
+                // remove from edit mode afterwards
+                element.querySelector(".edit-box").classList.remove('edit-box--in-edit-mode');
+                element.querySelector(".event").classList.remove('event--in-edit-mode');
+
+
+                
+
+                window.markDataHasChanged()
+            })
+        } catch (e) {
+            // console.log(e)
+        }
+
+
+
     });
 
 }
