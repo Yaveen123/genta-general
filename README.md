@@ -2,7 +2,7 @@
 I am just a student, and there are most definitely vulnerabilities or areas for improvement! If so, could you please let me know asap! Thank you so much :D
 
 > [!NOTE]  
-> Genta is still in alpha.
+> Genta is a proof of concept. Development ended June 12, 2025.
 
 
 |  | Backend Microservice | ➡️ Frontend Microservice ⬅️ | 
@@ -11,3 +11,7 @@ I am just a student, and there are most definitely vulnerabilities or areas for 
 | _Description_ | For the frontend to retrieve/update data, it pings API endpoints that run on this. | The frontend presents the content from the backend in a way that's accessible to the user. | 
 | _Deployed URL_ | https://genta-api.online | https://genta.live | 
 | _Repository_ | https://github.com/yaveen123/genta-api |  https://github.com/yaveen123/genta-general |  
+
+
+### License
+Genta General  © 2025 by Yavisht Behari is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/
