@@ -12,6 +12,3 @@ I am just a student, and there are most definitely vulnerabilities or areas for 
 | _Deployed URL_ | https://genta-api.online | https://genta.live | 
 | _Repository_ | https://github.com/yaveen123/genta-api |  https://github.com/yaveen123/genta-general |  
 
-
-### License
-Genta General  © 2025 by Yavisht Behari is licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-sa/4.0/
