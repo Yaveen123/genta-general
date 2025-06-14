@@ -25,3 +25,4 @@ if __name__ == '__main__':
     # Example of creating tables (if they don't exist)
     #app.run(debug=True)
     app.run(debug=True, port=6969, host='localhost')
+
