@@ -1,5 +1,7 @@
+// ID tone is stored in localstorage
 let idToken = localStorage.getItem('idToken') || 'NULL';
 
+// Vendor provided code - decodes JWT
 function decodeJwtResponse(token) {
     let base64Url = token.split('.')[1];
     let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -9,6 +11,7 @@ function decodeJwtResponse(token) {
     return JSON.parse(jsonPayload);
 }
 
+// Vendor provided code - callback func for credential handling
 function handleCredentialResponse(response) {
     console.log("Encoded JWT ID token: " + response.credential);
     idToken = response.credential;
@@ -21,10 +24,12 @@ function handleCredentialResponse(response) {
     UpdateUISuccessful();
 }
 
+// Sends user to the actual app instead.
 function UpdateUISuccessful () {
     window.location.replace(window.location.href + "app")
 }
 
+// Vendor provided code - Main func for GSI
 window.onload = function () {
     google.accounts.id.initialize({
         client_id: "348119995581-cdr89isvh3cl90i8s7ui1rsabghdvrbr.apps.googleusercontent.com",
@@ -57,7 +62,7 @@ window.onload = function () {
     }
 }
 
-
+// Vendor provided code - fetches from Genta API to verify login
 async function verifyLogin() {
     const url = "https://genta-api.online/verify-login";
     try {

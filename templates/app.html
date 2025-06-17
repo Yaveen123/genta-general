@@ -40,30 +40,37 @@
     <meta name="twitter:image" content="{{url_for('static', filename='images/meta-image.png')}}">
     <meta name="twitter:card" content="summary_large_image">
 
+    <!-- Manifest and icon -->
     <link rel="manifest" href="{{url_for('static', filename='manifest.json')}}" />
     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='images/favicon.ico')}}">
 
 </head>
 <body>
+    <!-- Sign out button at display: none to ensure GSI event listeners don't complain -->
     <button id="signOutButton" style="display: none;">Sign out</button>
 
+    <!-- Main-body exists as it exists as a fixed width to center horizontally within the actual body -->
     <div class="main-body" style="padding-top: 50px;">
+        <!-- Header -->
         <div id="header" class="header unselectable">
-
             <div id="header__inner-box" class="header__inner-box">
+                <!-- genta logo -->
                 <div style="display: flex; flex-direction: row; gap: 20px;">
                     <img src="{{url_for('static', filename='images/genta-logo.svg')}}" alt="Genta logo" width="60px" draggable="false">
                     <p class="typography__body--light header__chip__text" style="opacity: 100%; font-size: large;">Loading...</p>
                 </div>
                 
-
+                <!-- loading anim -->
                 <img id="loading-animation" src="{{url_for('static',filename='images/loading.svg')}}" width="50px" alt="Loading animation" draggable="false">
                 
+                <!-- hamburger button -->
                 <button class="header__icon__hamburger" id="hamburger-button" tabindex="0" style="background: none; border: none;">
                     <img id="hamburger-icon" src="{{url_for('static', filename='images/icons/hamburger.svg')}}" alt="Open menu icon" draggable="false">
                 </button>
             </div>
 
+            <!-- all of the links are displayed inside the link container -->
+             <!-- New proj and Sign out are defaults -->
             <div id="header__link-container" class="header__link-container">
                 <div class="header__link header__new-proj-button__main">
                     <div class="header__link__group--green">
@@ -83,26 +90,30 @@
                 </div>
                 
             </div>
-
-
-
         </div>
         
         
 
+        <!-- This is the "Click to add event" button, but as an event card, and hence the card is very stripped down-->
         <div class="event-outer-box add-event-card" style="background-color: #AFF20021; margin: 0">
 
             <!-- dummy classes to keep event listeners happy -->
             <div class="expandable-content__expand-collapse-container " style="display: none;"></div>
 
+            <!-- Event itself -->
             <div class="event" style="background-color: #AFF200;">
                 <p class="typography__subtitle--link event_title__settings-icon" style="font-weight: 400; opacity: 90; padding: 0px;">+ Click to add event</p>                
             </div>
+
+            <!-- Shows in edit mode -->
             <div class="edit-box">
+                    <!-- Cancel editing -->
                     <div class="edit-box__cancel-box">
                         <img src="{{url_for('static', filename='images/icons/cross2.svg')}}"  alt="cross button">
                         <p class="typography__subtitle--warn">Cancel</p>
                     </div>
+
+                    <!-- Event title input modal -->
                     <div class="edit-box__edit-info">
                         <input class="typography__heading--editable event-title-input" placeholder="Event title" type="text"></input>
                         <div class="edit-box__edit-info__date-edit-box">
@@ -110,6 +121,8 @@
                             <span class="event-date-display typography__body--editable"></span>
                         </div>
                     </div>
+
+                    <!-- Save and delete event buttons -->
                     <div style="display: flex; flex-direction: row; gap: 10px;">
                         <button class="edit-box__box save-new-event-button">
                             <p class="typography__button">Save event</p>

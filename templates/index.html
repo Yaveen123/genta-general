@@ -36,12 +36,17 @@
     <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='images/favicon.ico')}}">
 </head>
 <body>
-    <div class="logincard__sandwich">
+    <!-- the "Sandwich" refers to the two blank spaces on the top and bottom of the card -->
+    <div class="logincard__sandwich"> 
+        <!-- top bread -->
         <div class="logincard__bread__box">
             <div class="logincard__bread__inner-rect"></div>
         </div>
+
+        <!-- filling (card) -->
         <div class="logincard__filling_box">
             <div class="logincard__filling_inner-rect">
+                <!-- Div for all of the information -->
                 <div class="logincard__filling__inner-rect__box">
                     <img src="{{url_for('static', filename='images/genta-logo.svg')}}" alt="Genta Logo">
                     <p class="typography__body--light">Beta release | Productivity made for you!</p>
@@ -50,12 +55,18 @@
                     <p class="typography__body--light" style="width: 265px; text-align: center;"> ℹ️ Using the Instagram mobile web browser may not work. Try Google Chrome, Safari, or Microsoft Edge instead. </p>
                     
                 </div>
+                
+                <!-- GSI wrapper -->
                 <div class="google-signin-wrapper">
                     <img id="loading-animation" src="{{url_for('static', filename='images/loading.svg')}}" alt="Loading animation" width="50px" >
+
+                    <!-- "buttonDiv" turns into "sign in with google button" -->
                     <div id="buttonDiv"></div>
                 </div>
             </div>
         </div>
+
+        <!-- bottom bread -->
         <div class="logincard__bread__box">
             <div class="logincard__bread__inner-rect"></div>
         </div>

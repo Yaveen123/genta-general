@@ -1,35 +1,11 @@
-
-// expandable content html
-// <div class="expandable-content__expand-collapse-container__text-container" style="cursor: pointer;">
-//     <img class="expandable-content__expand-collapse-container__text-container__arrow-icon unselectable" src="/static/images/icons/up-arrow.svg" ">
-//     <p class="typography__body--clickable unselectable">Expand</p>
-// </div>
-
-
-
-
 // MARK:createEventCardDOM()
 function createEventCardDOM(projectData, eventData) {
-    // console.log(`Creating event card for: ${eventData.title}, Event Data: ${JSON.stringify(eventData)}`);
     // MARK:>event-outer-box
     const outerBox = document.createElement('div');
-    // let projectId, eventId;
-
-    // if (projectData.id) {
-    //     projectId = projectData.id;
-    // } else {
-    //     projectId = projectData.__tempId;
-    // }
 
     // JC taught me how to do these things better omg
     const projectId = projectData.id || projectData.__tempId
     const eventId = eventData.id || eventData.__tempId;
-
-    // if (eventData.id) {
-    //     eventId = eventData.id
-    // } else {
-    //     eventId = eventData.__tempId
-    // }
 
     // DOM for outer-box
     outerBox.className = 'event-outer-box';
@@ -37,23 +13,15 @@ function createEventCardDOM(projectData, eventData) {
     outerBox.dataset.eventId = eventId;
     outerBox.dataset.projectCard = eventData.projectCard || false; //set proj card js so we know what is what
 
-    
-
-    
-    
     // DOM for event
     const eventDiv = document.createElement('div');
     eventDiv.className = 'event'
-    
-    
+
     // MARK:>header
     // Includes date and title
     // DOM for header
     const eventHeader = document.createElement('div');
     eventHeader.className = 'event__header';
-
-    
-
 
     // DOM for title
     const title = document.createElement('p')
@@ -61,15 +29,10 @@ function createEventCardDOM(projectData, eventData) {
     titleDateContainer.className = 'event__title-date-container'
     title.className = 'event__title-date-container__text typography__heading unselectable event-title-clickable'
     title.textContent =  eventData.title || "Untitled event"
-
-    
-    
     
     // DOM for header > date container
     const dateContainer = document.createElement('div')
     dateContainer.className = 'event__title-date-container__date-container'
-    
-
     
     // DOM for header > datecontainer > date chip
     const dateChip = document.createElement('div')
@@ -85,9 +48,6 @@ function createEventCardDOM(projectData, eventData) {
     titleDateContainer.appendChild(title)
     titleDateContainer.appendChild(dateContainer);
 
-    
-    
-    
     // DOM for header > settings icon
     const settingsIcon = document.createElement('img')
     settingsIcon.src = "/static/images/icons/settings.svg"
@@ -97,21 +57,13 @@ function createEventCardDOM(projectData, eventData) {
     eventHeader.appendChild(settingsIcon)
     eventDiv.appendChild(eventHeader)
 
-
-    
-    // if (eventData.collapsed) { expandCollapseButtonType = 'down' } else 
-    // { expandCollapseButton = 'up' }
-
-
     // MARK: >expandcollapse
     // DOM for expand and collapse button
     const expandableContent = document.createElement('div')
     
     expandableContent.className = 'expandable-content'
 
-    // expandableContent.className = 'expandable-content'
     
-
     let expandCollapseButtonType, expandCollapseButtonText;
     if (eventData.collapsed) {
         expandCollapseButtonType = 'down';

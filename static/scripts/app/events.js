@@ -10,7 +10,6 @@ function startEventEventListeners () {
                 element.querySelector(".expandable-content__expand-collapse-container__text-container__arrow-icon").src = "static/images/icons/up-arrow.svg"; 
                 
                 element.querySelector(".expandable-content__content_container").querySelectorAll("textarea").forEach(textarea => {
-                    // console.log('asdfa')
                     window.resizeTextarea(textarea);
                 });
 
