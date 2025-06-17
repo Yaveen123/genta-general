@@ -1,7 +1,7 @@
 # Welcome to Genta (frontend)!
 Genta is a productivity tool for individuals! It's unique structure makes it perfect for freelancers and students!
-<img width="479" alt="Frame 69366" src="https://github.com/user-attachments/assets/d53b5ca3-1bb2-4c23-ba79-9bf11f4a4edd" />
-<img width="479" alt="Frame 69365" src="https://github.com/user-attachments/assets/dcb7afa6-98f9-404f-b0f9-6da7c11560a1" />
+<img width="250" alt="Frame 69366" src="https://github.com/user-attachments/assets/d53b5ca3-1bb2-4c23-ba79-9bf11f4a4edd" />
+<img width="250" alt="Frame 69365" src="https://github.com/user-attachments/assets/dcb7afa6-98f9-404f-b0f9-6da7c11560a1" />
 
 ## Technical information
 |  | Backend Microservice | ➡️ Frontend Microservice ⬅️ | 
