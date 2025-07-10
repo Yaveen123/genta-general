@@ -4,6 +4,9 @@ Genta is a productivity tool for individuals! It's unique structure makes it per
 <img width="250" alt="Frame 69365" src="https://github.com/user-attachments/assets/dcb7afa6-98f9-404f-b0f9-6da7c11560a1" />
 
 ## Technical information
+> [!WARNING]
+> Genta was decomissioned on July 8, 2025.
+
 |  | Backend Microservice | ➡️ Frontend Microservice ⬅️ | 
 | - | ---------------------| -----------------------|
 | _Branding image_ |  ![Frame 69372](https://github.com/user-attachments/assets/2cacf5a7-d310-49d0-bf8c-f2492b1077b7)  |  ![Frame 69371](https://github.com/user-attachments/assets/5887b990-1b86-4ec8-b353-1f2c67fac721) |
