@@ -18,4 +18,4 @@ Genta is a productivity tool for individuals! It's unique structure makes it per
 > [!IMPORTANT]  
 > Genta is a proof of concept, and it's codebase is not amazing. <br>
 > We don't know if we should take Genta further. <br>
-> Have business advice? Contact us on ybehari@outlook.com || hi@ileb.zip
+> Have business advice? Contact us on yavfind@gmail.com || hi@ileb.zip
